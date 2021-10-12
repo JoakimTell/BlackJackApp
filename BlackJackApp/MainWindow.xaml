@@ -5,8 +5,20 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BlackJackApp"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="BlackJackApp" Height="600" Width="1000" Background="Green">
     <Grid>
+        <Label Content="Hi, Welcome to BlackJack" HorizontalAlignment="Center" VerticalAlignment="Center" Width="278" Height="41" FontSize="24" Foreground="White" OpacityMask="White"/>
+        <Button Content="New Game" HorizontalAlignment="Left" Margin="260,525,0,0" VerticalAlignment="Top" Height="33" Width="123"/>
+        <Button Content="Hit" HorizontalAlignment="Center" Margin="0,526,0,0" VerticalAlignment="Top" Height="33" Width="124"/>
+        <Button Content="Stay" HorizontalAlignment="Left" Margin="622,526,0,0" VerticalAlignment="Top" Height="32" Width="123"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="361,380,0,0" VerticalAlignment="Top" Width="100"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="398,380,0,0" VerticalAlignment="Top" Width="100"/>
+
+        <Canvas Grid.Column="0" Grid.Row="0" Margin="262,338,262,99"/>
+        <Canvas Margin="262,56,262,361"/>
+   
+
+
 
     </Grid>
 </Window>
