@@ -5,18 +5,39 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BlackJackApp"
         mc:Ignorable="d"
-        Title="BlackJackApp" Height="600" Width="1000" Background="Green">
+        Title="BlackJackApp" Height="600" Width="1000">
+    <Window.Background>
+        <ImageBrush ImageSource="Assets/background.png"></ImageBrush>
+    </Window.Background>
     <Grid>
         <Label Content="Hi, Welcome to BlackJack" HorizontalAlignment="Center" VerticalAlignment="Center" Width="278" Height="41" FontSize="24" Foreground="White" OpacityMask="White"/>
-        <Button Content="New Game" HorizontalAlignment="Left" Margin="260,525,0,0" VerticalAlignment="Top" Height="33" Width="123"/>
-        <Button Content="Hit" HorizontalAlignment="Center" Margin="0,526,0,0" VerticalAlignment="Top" Height="33" Width="124"/>
-        <Button Content="Stay" HorizontalAlignment="Left" Margin="622,526,0,0" VerticalAlignment="Top" Height="32" Width="123"/>
+        <Button Content="New Game" HorizontalAlignment="Left" Margin="260,525,0,0" VerticalAlignment="Top" Height="33" Width="123" FontSize="16"/>
+        <Button Content="Hit" HorizontalAlignment="Center" Margin="0,526,0,0" VerticalAlignment="Top" Height="33" Width="124" FontSize="16"/>
+        <Button Content="Stay" HorizontalAlignment="Left" Margin="622,526,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16"/>
         <Image HorizontalAlignment="Left" Height="100" Margin="361,380,0,0" VerticalAlignment="Top" Width="100"/>
         <Image HorizontalAlignment="Left" Height="100" Margin="398,380,0,0" VerticalAlignment="Top" Width="100"/>
 
-        <Canvas Grid.Column="0" Grid.Row="0" Margin="262,338,262,99"/>
-        <Canvas Margin="262,56,262,361"/>
-   
+        <Canvas Grid.Column="0" Grid.Row="0" Margin="262,338,295,99">
+            <Image Source="{Binding Player.Card[0]}" Height="144" Canvas.Left="2" Width="100"/>
+            <Image Source="{Binding Player.Card[1]}" Height="144" Canvas.Left="50" Width="100" Canvas.Top="2"/>
+            <Image Source="{Binding Player.Card[2]}" Height="144" Canvas.Left="98" Width="100"/>
+            <Image Source="{Binding Player.Card[3]}" Height="144" Canvas.Left="146" Width="100" Canvas.Top="2"/>
+            <Image Source="{Binding Player.Card[4]}" Height="144" Canvas.Left="194" Width="100" Canvas.Top="2"/>
+            <Image Source="{Binding Player.Card[5]}" Height="144" Canvas.Left="242" Width="100" Canvas.Top="2"/>
+            <Image Source="{Binding Player.Card[6]}" Height="144" Canvas.Left="290" Width="100" Canvas.Top="2"/>
+            <Image Source="{Binding Player.Card[7]}" Height="144" Canvas.Left="338" Width="100" Canvas.Top="2"/>
+        </Canvas>
+        <Canvas Margin="262,56,295,379">
+            <Image Source="{Binding Dealer.Card[0]}" Height="144" Canvas.Top="2" Width="100"/>
+            <Image Source="{Binding Dealer.Card[1]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="50"/>
+            <Image Source="{Binding Dealer.Card[2]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="98"/>
+            <Image Source="{Binding Dealer.Card[3]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="146"/>
+            <Image Source="{Binding Dealer.Card[4]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="194"/>
+            <Image Source="{Binding Dealer.Card[5]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="242"/>
+            <Image Source="{Binding Dealer.Card[6]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="290"/>
+            <Image Source="{Binding Dealer.Card[7]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="338"/>
+        </Canvas>
+
 
 
 
