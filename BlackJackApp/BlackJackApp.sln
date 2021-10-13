@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.31702.278
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlackJackApp", "BlackJackApp.csproj", "{5987CC6D-7363-447E-B812-63FD65C0A26B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GameCardLib", "..\GameCardLib\GameCardLib.csproj", "{64E94700-DC4A-48B1-A4C0-41CFF0FBF869}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameCardLib", "..\GameCardLib\GameCardLib.csproj", "{64E94700-DC4A-48B1-A4C0-41CFF0FBF869}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UtilitiesLib", "..\UtilitiesLib\UtilitiesLib.csproj", "{61CFAAD0-B4E7-410E-8F58-9587289B153E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilitiesLib", "..\UtilitiesLib\UtilitiesLib.csproj", "{61CFAAD0-B4E7-410E-8F58-9587289B153E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -25,8 +25,22 @@ namespace BlackJackApp
             InitializeComponent();
         }
 
-        //Hit-button how to change?
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private void Hit_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Stay_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void Shuffle_Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void New_Game_Button_Click(object sender, RoutedEventArgs e)
         {
 
         }
