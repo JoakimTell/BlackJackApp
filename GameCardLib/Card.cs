@@ -6,28 +6,32 @@ using System.Threading.Tasks;
 
 namespace BlackJackApp
 {
-    class Card
+    public class Card
     {
+        private Suit suit;
+        private Value value;
+
         public Suit Suit
         {
-            get { return Suit; }
-            set { Suit = value; }
+            get { return suit; }
+            set { this.suit = value; }
         }
 
         public Value Value
         {
-            get { return Value; }
-            set { Value = value; }
+            get { return value; }
+            set { this.value = value; }
         }
 
-        public void Card(Suit suit, Value value)
+        public Card(Suit suit, Value value)
         {
-
+            this.suit = suit;
+            this.value = value;
         }
 
-        public string ToString()
+        public override string ToString()
         {
-
+            return $"Suit: {suit} \n Value: {value}";
         }
     }
 }

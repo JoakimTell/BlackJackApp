@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlackJackApp
 {
-    enum Suit
+    public enum Suit
     {
         clubs,
         diamonds,

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlackJackApp
 {
-    class Hand : Card
+    class Hand
     {
         private Deck deck;
 

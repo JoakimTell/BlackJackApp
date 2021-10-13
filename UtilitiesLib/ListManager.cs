@@ -20,6 +20,11 @@ namespace UtilitiesLib
             list = new List<T>();
         }
 
+        public ListManager(List<T> list)
+        {
+            this.list = list;
+        }
+
         // Properties
         public int Count
         {

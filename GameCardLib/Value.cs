@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BlackJackApp
 {
-    enum Value
+    public enum Value
     {
         Ace,
         Two,
