@@ -12,7 +12,7 @@
     <Grid>
         <Label Content="Hi, Welcome to BlackJack" HorizontalAlignment="Center" VerticalAlignment="Center" Width="278" Height="41" FontSize="24" Foreground="White" OpacityMask="White"/>
         <Button Content="New Game" HorizontalAlignment="Left" Margin="789,517,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Foreground="#FF191414"/>
-        <Button Content="Hit" HorizontalAlignment="Left" Margin="262,519,0,0" VerticalAlignment="Top" Height="33" Width="124" FontSize="16"/>
+        <Button Content="Hit" HorizontalAlignment="Left" Margin="262,519,0,0" VerticalAlignment="Top" Height="33" Width="124" FontSize="16" Click="Button_Click"/>
         <Button Content="Stay" HorizontalAlignment="Center" Margin="0,519,0,0" VerticalAlignment="Top" Height="32" Width="124" FontSize="16"/>
         <Image HorizontalAlignment="Left" Height="100" Margin="361,380,0,0" VerticalAlignment="Top" Width="100"/>
         <Image HorizontalAlignment="Left" Height="100" Margin="398,380,0,0" VerticalAlignment="Top" Width="100"/>
