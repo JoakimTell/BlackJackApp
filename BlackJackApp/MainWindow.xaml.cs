@@ -25,6 +25,7 @@ namespace BlackJackApp
             InitializeComponent();
         }
 
+        //Hit-button how to change?
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
