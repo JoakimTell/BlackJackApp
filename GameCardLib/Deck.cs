@@ -101,11 +101,13 @@ namespace BlackJackApp
         public int SumOfCards()
         {
             // TODO: Points of a hand? 
+            return 0;
         }
 
         public override string ToString()
         {
-            return ;
+            //TODO: What info? 
+            return "What?";
         }
  
     }

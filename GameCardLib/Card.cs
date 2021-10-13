@@ -11,6 +11,7 @@ namespace BlackJackApp
         private Suit suit;
         private Value value;
 
+        #region Properties
         public Suit Suit
         {
             get { return suit; }
@@ -22,6 +23,7 @@ namespace BlackJackApp
             get { return value; }
             set { this.value = value; }
         }
+        #endregion
 
         public Card(Suit suit, Value value)
         {

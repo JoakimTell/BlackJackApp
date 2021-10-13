@@ -9,40 +9,47 @@ namespace BlackJackApp
     class Hand
     {
         private Deck deck;
+        private Card lastCard;
+        private int numberOfCards;
+        private int score;
 
+        public Hand(Deck deck)
+        {
+            this.deck = deck;
+        }
+
+        #region Properties
         public Card LastCard
         {
-            get { return LastCard; }
+            get { return lastCard; }
         }
 
         public int NumberOfCards
         {
-            get { return NumberOfCards; }
+            get { return numberOfCards; }
         }
 
         public int Score
         {
-            get { return Score; }
+            get { return score; }
         }
+        #endregion
 
         public void AddCard(Card card)
         {
-
+            this.lastCard = card; // TODO: this correct? 
         }
 
         public void Clear()
         {
-
+            lastCard = null;
+            numberOfCards = 0;
+            score = 0;
         }
 
-        public void Hand (Deck deck)
+        public override string ToString()
         {
-
-        }
-
-        public string ToString()
-        {
-
+            return $"Score: {score} \nNumber of cards: {numberOfCards} \nLast card: {lastCard}";
         }
     }
 }

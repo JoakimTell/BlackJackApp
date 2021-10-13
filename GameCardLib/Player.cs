@@ -6,12 +6,19 @@ using System.Threading.Tasks;
 
 namespace BlackJackApp
 {
-    class Player : Hand
+    class Player
     {
+        private Hand hand;
+        private bool isFinished;
+        private string name;
+        private bool winner;
+        private string playerID;
+
+        #region Properties
         public Hand Hand
         {
-            get { return Hand; }
-            set { Hand = value; }
+            get { return hand; }
+            set { hand = value; }
         }
 
         public bool isFinishied
@@ -22,24 +29,33 @@ namespace BlackJackApp
 
         public string Name
         {
-            get { return Name; }
-            set { Name = value; }
+            get { return name; }
+            set { name = value; }
+        }
+
+        public string PlayerID
+        {
+            get { return playerID; }
+            set { playerID = value; }
         }
 
         public bool Winner
         {
-            get { return Winner; }
-            set { Winner = value; }
+            get { return winner; }
+            set { winner = value; }
+        }
+        #endregion
+
+        public Player(string id, string name, Hand hand)
+        {
+            this.playerID = id;
+            this.name = name;
+            this.hand = hand;
         }
 
-        public void Player(string id, string name, Hand hand)
+        public override string ToString()
         {
-
-        }
-
-        public string ToString()
-        {
-
+            return $"Name: {name} {(winner ? "is a winner!" : "lost...")}";
         }
 
 
