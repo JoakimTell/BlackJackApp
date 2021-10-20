@@ -8,32 +8,24 @@ namespace BlackJackApp
 {
     public class Card
     {
-        private Suit suit;
-        private Value value;
 
         #region Properties
-        public Suit Suit
-        {
-            get { return suit; }
-            set { this.suit = value; }
-        }
+        public Suit Suit { get; set; }
 
-        public Value Value
+        public Value Value { get; set; }
+        #endregion
+
+        #region Constructors
+        public Card(Suit suit, Value value)
         {
-            get { return value; }
-            set { this.value = value; }
+            Suit = suit;
+            Value = value;
         }
         #endregion
 
-        public Card(Suit suit, Value value)
-        {
-            this.suit = suit;
-            this.value = value;
-        }
-
         public override string ToString()
         {
-            return $"Suit: {suit} \n Value: {value}";
+            return $"{Value} of {Suit}";
         }
     }
 }

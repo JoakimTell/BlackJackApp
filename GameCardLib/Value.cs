@@ -8,7 +8,7 @@ namespace BlackJackApp
 {
     public enum Value
     {
-        Ace,
+        Ace = 1,
         Two,
         Three,
         Four,

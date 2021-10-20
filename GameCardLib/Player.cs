@@ -6,59 +6,34 @@ using System.Threading.Tasks;
 
 namespace BlackJackApp
 {
-    class Player
+    public class Player
     {
-        private Hand hand;
-        private bool isFinished;
-        private string name;
-        private bool winner;
-        private string playerID;
 
         #region Properties
-        public Hand Hand
-        {
-            get { return hand; }
-            set { hand = value; }
-        }
+        public Hand Hand { get; set; }
 
-        public bool isFinishied
-        {
-            get { return isFinishied; }
-            set { isFinishied = value; }
-        }
+        public bool IsFinnishied { get; set; }
 
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
+        public string Name { get; set; }
 
-        public string PlayerID
-        {
-            get { return playerID; }
-            set { playerID = value; }
-        }
+        public string PlayerID { get; set; }
 
-        public bool Winner
+        public bool Winner { get; set; }
+        #endregion
+
+        #region Constructors
+        public Player(string id, string name, Hand hand)
         {
-            get { return winner; }
-            set { winner = value; }
+            PlayerID = id;
+            Name = name;
+            Hand = hand;
         }
         #endregion
 
-        public Player(string id, string name, Hand hand)
-        {
-            this.playerID = id;
-            this.name = name;
-            this.hand = hand;
-        }
-
         public override string ToString()
         {
-            return $"Name: {name} {(winner ? "is a winner!" : "lost...")}";
+            return $"{Name} {(Winner ? "is a winner!" : "lost...")}";
         }
-
-
     }
 }
 

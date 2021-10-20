@@ -6,50 +6,48 @@ using System.Threading.Tasks;
 
 namespace BlackJackApp
 {
-    class Hand
+    public class Hand
     {
-        private Deck deck;
-        private Card lastCard;
-        private int numberOfCards;
-        private int score;
-
-        public Hand(Deck deck)
+        private Deck deck; // All hands uses the same deck.
+        
+        #region Constructors
+        public Hand(Deck deck) // All hands uses the same deck.
         {
             this.deck = deck;
+            
+            List<Card> firstTwoCards = deck.GetTwoCards();
+
+            foreach (Card card in firstTwoCards)
+            {
+                AddCard(card);
+            }
         }
+        #endregion
 
         #region Properties
-        public Card LastCard
-        {
-            get { return lastCard; }
-        }
+        public Card LastCard { get; private set; }
 
-        public int NumberOfCards
-        {
-            get { return numberOfCards; }
-        }
+        public int NumberOfCards { get; private set; }
 
-        public int Score
-        {
-            get { return score; }
-        }
+        public int Score { get; private set; }
         #endregion
 
         public void AddCard(Card card)
         {
-            this.lastCard = card; // TODO: this correct? 
+            LastCard = card;
+            Score += (int) card.Value;
         }
 
         public void Clear()
         {
-            lastCard = null;
-            numberOfCards = 0;
-            score = 0;
+            LastCard = null;
+            NumberOfCards = 0;
+            Score = 0;
         }
 
         public override string ToString()
         {
-            return $"Score: {score} \nNumber of cards: {numberOfCards} \nLast card: {lastCard}";
+            return $"Score: {Score}, Number of cards: {NumberOfCards}, Last card: {LastCard}";
         }
     }
 }

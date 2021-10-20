@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,42 +9,48 @@ using UtilitiesLib;
 
 namespace BlackJackApp
 {
-    class Deck
+    public class Deck
     {
         private ListManager<Card> cards;
-        private Random randomArranger;
+        private readonly Random randomArranger;
 
-        private bool gameIsDone;
+        #region Properties
+        public bool GameIsDone { get; set; }
+        #endregion
 
-        public bool GameIsDone
-        {
-            get { return gameIsDone; }
-            set { this.gameIsDone = value; }
-        }
-
-        // 
+        // Add a card to the deck.
         public void AddCard(Card card)
         {
-            // TODO: Typ hit
+            cards.Add(card);
         }
 
         // Construct with a list of cards as parameter.
-        public Deck (List<Card> cardList)
+        public Deck(List<Card> cardList)
         {
             InitializeDeck(cardList);
         }
 
-        // 
+        // Fill deck of 52 cards.
         public void InitializeDeck(List<Card> cardList)
         {
+            DiscardCards();
             cards = new ListManager<Card>(cardList);
-            // TODO: Do something more with the list???
+            for (int s = 0; s < 4; s++) // Enum values of the four suites. 
+            {
+                for (int v = 1; v <= 13; v++) // Enum values from Ace to King.
+                {
+                    cards.Add(new Card((Suit)s, (Value)v));
+                }
+            }
+            Shuffle();
+            ToString();
+            Debug.WriteLine($"Sum of values of the cards in the deck: {SumOfCards()}");
         }
 
-        // 
+        // Remove all cards from the deck.
         public void DiscardCards()
         {
-            // TODO: Start new game?
+            cards.DeleteAll();
         }
 
         // Return a specified card.
@@ -53,33 +60,37 @@ namespace BlackJackApp
         }
 
         // Return the two first cards from the deck.
-        public List<Card> getTwoCards()
+        public List<Card> GetTwoCards()
         {
             List<Card> lst = new();
 
-            for(int i = 0; i < 2; i++)
+            for (int i = 0; i < 2; i++)
             {
                 lock (cards)
                 {
-                    lst.Add(cards.GetAt(0));
-                    cards.DeleteAt(0);
+                    lst.Add(GetAt(0));
+                    RemoveCard(0);
                 }
             }
-            
+
             return lst;
         }
 
         // Return how many cards are left in the deck.
         public int NumberOfCards()
         {
-            // TODO: What number? decks number of cards?
             return cards.Count;
         }
 
-        // Fisher–Yates shuffle
-        public void OnShuffle(Object source, EventArgs eventArgs)
+        // Fisher–Yates shuffle.
+        public void OnShuffle(Object source, EventArgs eventArgs) // TODO: Event?
         {
-            int n = cards.Count;
+            Shuffle();
+        }
+
+        private void Shuffle()
+        {
+            int n = NumberOfCards();
             while (n > 1)
             {
                 n--;
@@ -88,27 +99,48 @@ namespace BlackJackApp
                 cards.ChangeAt(cards.GetAt(n), k);
                 cards.ChangeAt(value, n);
             }
-            // TODO: This is an event. Use with ButtonShuffle somehow?
         }
 
-        // 
+        // Remove one card from the deck, at a specified position. 
         public void RemoveCard(int pos)
         {
-            // TODO: Why use this method?
             cards.DeleteAt(pos);
         }
 
+        // Value of all cards in the deck combined.
         public int SumOfCards()
         {
-            // TODO: Points of a hand? 
-            return 0;
+            int sumValue = 0;
+            foreach (Card card in cards.List)
+            {
+                sumValue += (int)card.Value;
+            }
+            return sumValue;
         }
 
+        // Print all cards remaining in the deck
         public override string ToString()
         {
-            //TODO: What info? 
-            return "What?";
+            StringBuilder cardsInDeck = new();
+            int columns = 5;// Debugging.
+            foreach (Card card in cards.List)
+            {
+                cardsInDeck.AppendLine(card.ToString());
+
+                // Start Debugging.
+                if (columns == 0)
+                {
+                    Debug.Write($"{card,20}\n");
+                    columns = 5;
+                }
+                else
+                {
+                    Debug.Write($"{card,20}");
+                    columns--;
+                }
+                // End Debugging.
+            }
+            return cardsInDeck.ToString();
         }
- 
     }
 }

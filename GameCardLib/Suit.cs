@@ -8,7 +8,7 @@ namespace BlackJackApp
 {
     public enum Suit
     {
-        clubs,
+        clubs = 0,
         diamonds,
         hearts,
         spades
