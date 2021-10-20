@@ -187,18 +187,18 @@ namespace BlackJackApp
 
         private BitmapImage RevealCard(Card card)
         {
-            //Value value = card.Value;
-            //Suit suit = card.Suit;
+            Value value = card.Value;
+            Suit suit = card.Suit;
             string projectPathLocal = new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent.FullName; //TODO: folder depth not universal
-            //string path = System.IO.Path.Combine(projectPathLocal, @"Assets\Cards\", $"{value} of {suit}.png");
-            string path = System.IO.Path.Combine(projectPathLocal, @"Assets\Cards\", $"c11.png");
+            string path = System.IO.Path.Combine(projectPathLocal, @"Assets\Cards\", $"{value}of{suit}.png");
+       //     string path = System.IO.Path.Combine(projectPathLocal, @"Assets\Cards\", $"c11.png");
             return new BitmapImage(new Uri(path));
         }
 
         private BitmapImage HideCard()
         {
             string projectPathLocal = new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent.FullName; //TODO: folder depth not universal
-            string path = System.IO.Path.Combine(projectPathLocal, @"Assets\Cards\", $"cardBack_blue1.png");
+            string path = System.IO.Path.Combine(projectPathLocal, @"Assets\Cards\", $"cardBack_blue.png");
             return new BitmapImage(new Uri(path));
         }
     }
