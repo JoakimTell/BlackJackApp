@@ -18,11 +18,11 @@ namespace BlackJackApp
         #endregion
 
         #region Properties
-        public Card LastCard { get; private set; }
+        public Card LastCard { get; set; }
 
-        public int NumberOfCards { get; private set; }
+        public int NumberOfCards { get; set; }
 
-        public int Score { get; private set; }
+        public int Score { get; set; }
         #endregion
 
         public void AddCard(Card card)

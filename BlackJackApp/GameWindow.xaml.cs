@@ -21,25 +21,68 @@ namespace BlackJackApp
     /// </summary>
     public partial class GameWindow : Window
     {
+        private Deck deck;
+        private List<Player> players;
+        private int currentPlayer;
+
         public GameWindow()
         {
             InitializeComponent();
             StartNewGame();
+            btnHit.IsEnabled = true;
+            btnStay.IsEnabled = true;
+
+            btnNextPlayer.IsEnabled = false;
+            btnNewRound.IsEnabled = false;
         }
 
         private void Hit_Button_Click(object sender, RoutedEventArgs e)
         {
-
+            PlayerNextCard();
+            ScoreCheck();
         }
 
         private void Stay_Button_Click(object sender, RoutedEventArgs e)
         {
+            currentPlayer++;
+            if (currentPlayer < players.Count)
+            {
+                playerCard3.Source = null;
+                playerCard4.Source = null;
+                playerCard5.Source = null;
+                playerCard6.Source = null;
+                playerCard7.Source = null;
+                playerCard8.Source = null;
+                PlayerFirstTwoCards();
+                ScoreCheck();
+            }
+            else
+            {
+                DealersSecondTurn();
+                currentPlayer = 0;
 
+                btnHit.IsEnabled = false;
+                btnStay.IsEnabled = false;
+
+                btnNextPlayer.IsEnabled = true;
+                btnNewRound.IsEnabled = true;
+            }
         }
 
         private void Shuffle_Button_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void btnNewRound_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void btnNextPlayer_Click(object sender, RoutedEventArgs e)
+        {
+            currentPlayer++;
+            ScoreCheck();
         }
 
         private void New_Game_Button_Click(object sender, RoutedEventArgs e)
@@ -52,46 +95,97 @@ namespace BlackJackApp
         private void StartNewGame()
         {
             //Reset the game  
-            Deck deck = new Deck(new List<Card>());
-            List<Player> players = new();
-            
+            deck = new Deck(new List<Card>());
+            players = new List<Player>();
+            currentPlayer = 0;
+
             // Add dealer at index 0.
             players.Add(new Player("DEALER", "Dealer", new Hand(deck)));
-            List<Card> firstTwoCards = deck.GetTwoCards();
-            players[0].Hand.AddCard(firstTwoCards[0]);
-            //dealerCards.BindingGroup.Items.Add(revealCard(players[0].Hand.LastCard));
-            dealerCard1.Source = revealCard(players[0].Hand.LastCard);
-            players[0].Hand.AddCard(firstTwoCards[1]);
-            dealerCard2.Source = revealCard(players[0].Hand.LastCard);
-            lblDealerScoreCalc.Content = players[0].Hand.Score;
 
             // Add a list of players from index 1.
-            int nbrOfPlayers = 1; // TODO: Change this to value recieved from Menu!
+            int nbrOfPlayers = 5; // TODO: Change this to value recieved from Menu!
             for (int i = 1; i <= nbrOfPlayers; i++)
             {
                 players.Add(new Player(i.ToString(), $"Player {i}", new Hand(deck)));
             }
 
-            // Play one hand for each player, sequentially.
-            for (int i = 1; i <= nbrOfPlayers; i++)
-            {
-                PlayOneHand(players[i], deck);
-            }
+            StartNewRound();
         }
 
-        private void PlayOneHand(Player player, Deck deck)
+        private void StartNewRound()
         {
-            dealerCard1.Source = revealCard(player.Hand.LastCard);
-            List<Card> firstTwoCards = deck.GetTwoCards();
-            player.Hand.AddCard(firstTwoCards[0]);
-            //dealerCards.BindingGroup.Items.Add(revealCard(players[0].Hand.LastCard));
-            playerCard1.Source = revealCard(player.Hand.LastCard);
-            player.Hand.AddCard(firstTwoCards[1]);
-            playerCard2.Source = revealCard(player.Hand.LastCard);
-            lblPlayerScoreCalc.Content = player.Hand.Score;
+            // Reveal dealer first card and hide second card.
+            List<Card> dealerFirstTwoCards = deck.GetTwoCards();
+            players[0].Hand.AddCard(dealerFirstTwoCards[0]);
+            dealerCard1.Source = RevealCard(players[0].Hand.LastCard);
+
+            players[0].Hand.LastCard = dealerFirstTwoCards[1];
+            dealerCard2.Source = HideCard();
+            lblDealerScoreCalc.Content = players[0].Hand.Score;
         }
 
-        private BitmapImage revealCard(Card card)
+        // Set up the current player for a hand.
+        private void PlayerFirstTwoCards()
+        {
+            List<Card> playerFirstTwoCards = deck.GetTwoCards();
+
+            // Reveal first card.
+            players[currentPlayer].Hand.AddCard(playerFirstTwoCards[0]);
+            playerCard1.Source = RevealCard(players[currentPlayer].Hand.LastCard);
+
+            // Reveal second card.
+            players[currentPlayer].Hand.AddCard(playerFirstTwoCards[1]);
+            playerCard2.Source = RevealCard(players[currentPlayer].Hand.LastCard);
+        }
+
+        private void PlayerNextCard()
+        {
+            players[currentPlayer].Hand.AddCard(deck.GetAt(0));
+            deck.RemoveCard(0);
+            playerCard3.Source = RevealCard(players[currentPlayer].Hand.LastCard);
+        }
+
+        // Reveal dealer second card.
+        private void DealersSecondTurn()
+        {
+            players[0].Hand.AddCard(players[0].Hand.LastCard);
+            dealerCard2.Source = RevealCard(players[0].Hand.LastCard);
+            lblDealerScoreCalc.Content = players[0].Hand.Score;
+        }
+
+        private void ScoreCheck()
+        {
+            lblPlayerName.Content = players[currentPlayer].Name;
+            lblPlayerScoreCalc.Content = players[currentPlayer].Hand.Score;
+
+            string message = "";
+
+            if (players[currentPlayer].Hand.Score == 21)
+            {
+                players[currentPlayer].Winner = true;
+                message = players[currentPlayer].ToString();
+            }
+            else if (players[currentPlayer].Hand.Score > 21)
+            {
+                players[currentPlayer].Winner = false;
+                message = players[currentPlayer].ToString();
+            }
+            else if (players[currentPlayer].Hand.Score < players[0].Hand.Score)
+            {
+                message = "You have LESS points than the dealer.";
+            }
+            else if (players[currentPlayer].Hand.Score > players[0].Hand.Score)
+            {
+                message = "You have More points than the dealer.";
+            }
+            else if (players[currentPlayer].Hand.Score == players[0].Hand.Score)
+            {
+                message = "You have THE SAME score as the dealer.";
+            }
+            lblMessage.Content = message;
+        }
+
+        private BitmapImage RevealCard(Card card)
         {
             //Value value = card.Value;
             //Suit suit = card.Suit;
@@ -101,9 +195,11 @@ namespace BlackJackApp
             return new BitmapImage(new Uri(path));
         }
 
-        private void btnNewRound_Click(object sender, RoutedEventArgs e)
+        private BitmapImage HideCard()
         {
-
+            string projectPathLocal = new DirectoryInfo(Environment.CurrentDirectory).Parent.Parent.Parent.FullName; //TODO: folder depth not universal
+            string path = System.IO.Path.Combine(projectPathLocal, @"Assets\Cards\", $"cardBack_blue1.png");
+            return new BitmapImage(new Uri(path));
         }
     }
 }
