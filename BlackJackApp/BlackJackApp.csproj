@@ -11,6 +11,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\GameCardLib\GameCardLib.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Assets\background.png" />
   </ItemGroup>
 

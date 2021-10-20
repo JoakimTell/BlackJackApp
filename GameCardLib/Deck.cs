@@ -27,14 +27,15 @@ namespace BlackJackApp
         // Construct with a list of cards as parameter.
         public Deck(List<Card> cardList)
         {
+            randomArranger = new Random();
             InitializeDeck(cardList);
         }
 
         // Fill deck of 52 cards.
         public void InitializeDeck(List<Card> cardList)
         {
-            DiscardCards();
             cards = new ListManager<Card>(cardList);
+            DiscardCards();
             for (int s = 0; s < 4; s++) // Enum values of the four suites. 
             {
                 for (int v = 1; v <= 13; v++) // Enum values from Ace to King.

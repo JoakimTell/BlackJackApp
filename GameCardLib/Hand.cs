@@ -14,13 +14,6 @@ namespace BlackJackApp
         public Hand(Deck deck) // All hands uses the same deck.
         {
             this.deck = deck;
-            
-            List<Card> firstTwoCards = deck.GetTwoCards();
-
-            foreach (Card card in firstTwoCards)
-            {
-                AddCard(card);
-            }
         }
         #endregion
 

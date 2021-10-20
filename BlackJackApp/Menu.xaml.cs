@@ -29,6 +29,7 @@ namespace BlackJackApp
             string decks = txtNmbrOfDecks.Text;
             string players = txtNmbrOfPlayers.Text;
 
+            //Delegate/Event -> för att skicka decks+players till spelet.
             
             GameWindow gameWindow = new GameWindow();
             gameWindow.Show();

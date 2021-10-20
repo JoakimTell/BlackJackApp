@@ -11,7 +11,7 @@
     </Window.Background>
     <Grid>
         <Label Content="Hi, Welcome to BlackJack" HorizontalAlignment="Center" VerticalAlignment="Center" Width="278" Height="41" FontSize="24" Foreground="White" OpacityMask="White"/>
-        <Button x:Name="btnNewGame" Content="New Game" HorizontalAlignment="Left" Margin="789,517,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Foreground="#FF191414" Click="New_Game_Button_Click"/>
+        <Button x:Name="btnNewGame" Content="New Game" HorizontalAlignment="Left" Margin="35,249,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Foreground="#FF191414" Click="New_Game_Button_Click"/>
         <Button x:Name="btnHit" Content="Hit" HorizontalAlignment="Left" Margin="262,519,0,0" VerticalAlignment="Top" Height="33" Width="124" FontSize="16" Click="Hit_Button_Click"/>
         <Button x:Name="btnStay" Content="Stay" HorizontalAlignment="Center" Margin="0,519,0,0" VerticalAlignment="Top" Height="32" Width="124" FontSize="16" Click="Stay_Button_Click"/>
         <Image HorizontalAlignment="Left" Height="100" Margin="361,380,0,0" VerticalAlignment="Top" Width="100"/>
@@ -37,10 +37,13 @@
             <Image x:Name="delearCard7" Source="{Binding Dealer.Card[6]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="290"/>
             <Image x:Name="dealerCard8" Source="{Binding Dealer.Card[7]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="338"/>
         </Canvas>
-        <Label Content="Player" HorizontalAlignment="Left" Margin="45,477,0,0" VerticalAlignment="Top" Width="150" FontSize="18"/>
-        <Label Content="Dealer" HorizontalAlignment="Left" Margin="45,43,0,0" VerticalAlignment="Top" FontSize="18"/>
-        <Label Content="Points:" HorizontalAlignment="Left" Margin="45,521,0,0" VerticalAlignment="Top" Width="95" FontSize="20"/>
-        <Label Content="Points:" HorizontalAlignment="Left" Margin="45,77,0,0" VerticalAlignment="Top" Width="95" FontSize="20"/>
+        <Label Content="Player" HorizontalAlignment="Left" Margin="45,477,0,0" VerticalAlignment="Top" Width="75" FontSize="18"/>
+        <Label Content="Dealer" HorizontalAlignment="Left" Margin="45,43,0,0" VerticalAlignment="Top" FontSize="18" Width="75"/>
+        <Label x:Name="lblPlayerScore" Content="Score" HorizontalAlignment="Left" Margin="45,521,0,0" VerticalAlignment="Top" Width="75" FontSize="20"/>
+        <Label x:Name="lblDealerScore" Content="Score" HorizontalAlignment="Left" Margin="45,77,0,0" VerticalAlignment="Top" Width="75" FontSize="20"/>
         <Button x:Name="btnShuffle" Content="Shuffle" HorizontalAlignment="Left" Margin="612,519,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="Shuffle_Button_Click"/>
+        <Label x:Name="lblDealerScoreCalc" Content="0" HorizontalAlignment="Left" Margin="147,82,0,0" VerticalAlignment="Top" FontSize="22"/>
+        <Label x:Name="lblPlayerScoreCalc" Content="0" HorizontalAlignment="Left" Margin="147,522,0,0" VerticalAlignment="Top" FontSize="22"/>
+        <Button x:Name="btnNewRound" Content="New Round" HorizontalAlignment="Left" Margin="783,517,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="btnNewRound_Click"/>
     </Grid>
 </Window>
