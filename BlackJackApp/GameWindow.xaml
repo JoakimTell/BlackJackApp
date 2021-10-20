@@ -1,4 +1,4 @@
-﻿<Window x:Class="BlackJackApp.MainWindow"
+﻿<Window x:Class="BlackJackApp.GameWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -17,34 +17,30 @@
         <Image HorizontalAlignment="Left" Height="100" Margin="361,380,0,0" VerticalAlignment="Top" Width="100"/>
         <Image HorizontalAlignment="Left" Height="100" Margin="398,380,0,0" VerticalAlignment="Top" Width="100"/>
 
-        <Canvas Grid.Column="0" Grid.Row="0" Margin="262,338,295,99">
-            <Image Source="{Binding Player.Card[0]}" Height="144" Canvas.Left="2" Width="100"/>
-            <Image Source="{Binding Player.Card[1]}" Height="144" Canvas.Left="50" Width="100" Canvas.Top="2"/>
-            <Image Source="{Binding Player.Card[2]}" Height="144" Canvas.Left="98" Width="100"/>
-            <Image Source="{Binding Player.Card[3]}" Height="144" Canvas.Left="146" Width="100" Canvas.Top="2"/>
-            <Image Source="{Binding Player.Card[4]}" Height="144" Canvas.Left="194" Width="100" Canvas.Top="2"/>
-            <Image Source="{Binding Player.Card[5]}" Height="144" Canvas.Left="242" Width="100" Canvas.Top="2"/>
-            <Image Source="{Binding Player.Card[6]}" Height="144" Canvas.Left="290" Width="100" Canvas.Top="2"/>
-            <Image Source="{Binding Player.Card[7]}" Height="144" Canvas.Left="338" Width="100" Canvas.Top="2"/>
+        <Canvas x:Name="playerCards" Grid.Column="0" Grid.Row="0" Margin="262,338,295,99">
+            <Image x:Name="playerCard1" Source="{Binding Player.Card[0]}" Height="144" Canvas.Left="2" Width="100" />
+            <Image x:Name="playerCard2" Source="{Binding Player.Card[1]}" Height="144" Canvas.Left="50" Width="100" Canvas.Top="2"/>
+            <Image x:Name="playerCard3" Source="{Binding Player.Card[2]}" Height="144" Canvas.Left="98" Width="100"/>
+            <Image x:Name="playerCard4" Source="{Binding Player.Card[3]}" Height="144" Canvas.Left="146" Width="100" Canvas.Top="2"/>
+            <Image x:Name="playerCard5" Source="{Binding Player.Card[4]}" Height="144" Canvas.Left="194" Width="100" Canvas.Top="2"/>
+            <Image x:Name="playerCard6" Source="{Binding Player.Card[5]}" Height="144" Canvas.Left="242" Width="100" Canvas.Top="2"/>
+            <Image x:Name="playerCard7" Source="{Binding Player.Card[6]}" Height="144" Canvas.Left="290" Width="100" Canvas.Top="2"/>
+            <Image x:Name="playerCard8" Source="{Binding Player.Card[7]}" Height="144" Canvas.Left="338" Width="100" Canvas.Top="2"/>
         </Canvas>
-        <Canvas Margin="262,56,295,379">
-            <Image Source="{Binding Dealer.Card[0]}" Height="144" Canvas.Top="2" Width="100"/>
-            <Image Source="{Binding Dealer.Card[1]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="50"/>
-            <Image Source="{Binding Dealer.Card[2]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="98"/>
-            <Image Source="{Binding Dealer.Card[3]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="146"/>
-            <Image Source="{Binding Dealer.Card[4]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="194"/>
-            <Image Source="{Binding Dealer.Card[5]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="242"/>
-            <Image Source="{Binding Dealer.Card[6]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="290"/>
-            <Image Source="{Binding Dealer.Card[7]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="338"/>
+        <Canvas x:Name="dealerCards" Margin="262,56,295,379">
+            <Image x:Name="dealerCard1" Source="{Binding Dealer.Card[0]}" Height="144" Canvas.Top="2" Width="100"/>
+            <Image x:Name="dealerCard2" Source="{Binding Dealer.Card[1]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="50"/>
+            <Image x:Name="dealerCard3" Source="{Binding Dealer.Card[2]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="98"/>
+            <Image x:Name="dealerCard4" Source="{Binding Dealer.Card[3]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="146"/>
+            <Image x:Name="dealerCard5" Source="{Binding Dealer.Card[4]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="194"/>
+            <Image x:Name="dealerCard6" Source="{Binding Dealer.Card[5]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="242"/>
+            <Image x:Name="delearCard7" Source="{Binding Dealer.Card[6]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="290"/>
+            <Image x:Name="dealerCard8" Source="{Binding Dealer.Card[7]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="338"/>
         </Canvas>
         <Label Content="Player" HorizontalAlignment="Left" Margin="45,477,0,0" VerticalAlignment="Top" Width="150" FontSize="18"/>
         <Label Content="Dealer" HorizontalAlignment="Left" Margin="45,43,0,0" VerticalAlignment="Top" FontSize="18"/>
         <Label Content="Points:" HorizontalAlignment="Left" Margin="45,521,0,0" VerticalAlignment="Top" Width="95" FontSize="20"/>
         <Label Content="Points:" HorizontalAlignment="Left" Margin="45,77,0,0" VerticalAlignment="Top" Width="95" FontSize="20"/>
         <Button x:Name="btnShuffle" Content="Shuffle" HorizontalAlignment="Left" Margin="612,519,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="Shuffle_Button_Click"/>
-
-
-
-
     </Grid>
 </Window>
