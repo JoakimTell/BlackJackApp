@@ -18,17 +18,13 @@ namespace BlackJackApp
         public bool GameIsDone { get; set; }
         #endregion
 
-        // Add a card to the deck.
-        public void AddCard(Card card)
-        {
-            cards.Add(card);
-        }
 
         // Construct with a list of cards as parameter.
         public Deck(List<Card> cardList)
         {
             randomArranger = new Random();
             InitializeDeck(cardList);
+
         }
 
         // Fill deck of 52 cards.
@@ -83,12 +79,13 @@ namespace BlackJackApp
             return cards.Count;
         }
 
-        // Fisher–Yates shuffle.
+        // This method has the same definition as the delegate from GUI.
         public void OnShuffle(Object source, EventArgs eventArgs) // TODO: Event?
         {
             Shuffle();
         }
 
+        // Fisher–Yates shuffle.
         private void Shuffle()
         {
             int n = NumberOfCards();
@@ -100,6 +97,12 @@ namespace BlackJackApp
                 cards.ChangeAt(cards.GetAt(n), k);
                 cards.ChangeAt(value, n);
             }
+        }
+
+        // Add a card to the deck.
+        public void AddCard(Card card)
+        {
+            cards.Add(card);
         }
 
         // Remove one card from the deck, at a specified position. 
