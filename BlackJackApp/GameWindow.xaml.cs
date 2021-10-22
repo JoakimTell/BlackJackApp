@@ -50,7 +50,15 @@ namespace BlackJackApp
 
         private void btnNewRound_Click(object sender, RoutedEventArgs e)
         {
-            // Start new round...
+            if (players.Count > 0)
+            {
+                currentPlayer = 0;
+                StartNewRound();
+            }
+            else
+            {
+                MessageBox.Show("Choose number of players in the menu");
+            }
         }
 
         private void btnNextPlayer_Click(object sender, RoutedEventArgs e)
@@ -96,12 +104,12 @@ namespace BlackJackApp
             players = new List<Player>();
             Menu menu = new Menu(players, deck);
             menu.Show();
-            btnNewRound.IsEnabled = true;
+            ButtonsIsInPlaymode(false);
+            btnNextPlayer.IsEnabled = false;
         }
-       
+
         private void StartNewRound()
         {
-
             // Reveal dealer first card and hide second card.
             List<Card> dealerFirstTwoCards = deck.GetTwoCards();
             players[0].Hand.AddCard(dealerFirstTwoCards[0]);
