@@ -28,10 +28,6 @@ namespace BlackJackApp
         public GameWindow()
         {
             InitializeComponent();
-            StartNewGame();
-            btnHit.IsEnabled = true;
-            btnStay.IsEnabled = true;
-
             btnNextPlayer.IsEnabled = false;
             btnNewRound.IsEnabled = false;
         }
@@ -76,7 +72,16 @@ namespace BlackJackApp
 
         private void btnNewRound_Click(object sender, RoutedEventArgs e)
         {
-
+            if(players.Count > 0)
+            {
+                currentPlayer = 0;
+                StartNewRound();
+            }
+            else
+            {
+                MessageBox.Show("Choose number of players in the menu");
+            }
+            
         }
 
         private void btnNextPlayer_Click(object sender, RoutedEventArgs e)
@@ -87,33 +92,16 @@ namespace BlackJackApp
 
         private void New_Game_Button_Click(object sender, RoutedEventArgs e)
         {
-            Menu menu = new Menu();
-            menu.Show();
-            this.Close();
-        }
-
-        private void StartNewGame()
-        {
-            //Reset the game  
             deck = new Deck(new List<Card>());
             players = new List<Player>();
-            currentPlayer = 0;
-
-            // Add dealer at index 0.
-            players.Add(new Player("DEALER", "Dealer", new Hand(deck)));
-
-            // Add a list of players from index 1.
-            int nbrOfPlayers = 5; // TODO: Change this to value recieved from Menu!
-            for (int i = 1; i <= nbrOfPlayers; i++)
-            {
-                players.Add(new Player(i.ToString(), $"Player {i}", new Hand(deck)));
-            }
-
-            StartNewRound();
+            Menu menu = new Menu(players, deck);
+            menu.Show();
+            btnNewRound.IsEnabled = true;
         }
-
+       
         private void StartNewRound()
         {
+
             // Reveal dealer first card and hide second card.
             List<Card> dealerFirstTwoCards = deck.GetTwoCards();
             players[0].Hand.AddCard(dealerFirstTwoCards[0]);

@@ -10,7 +10,7 @@
         <ImageBrush ImageSource="Assets/background.png"></ImageBrush>
     </Window.Background>
     <Grid>
-        <Label x:Name="lblMessage" Content="Hi, Welcome to BlackJack" HorizontalAlignment="Center" VerticalAlignment="Center" Width="347" Height="41" FontSize="24" Foreground="White" OpacityMask="White"/>
+        <Label x:Name="lblMessage" Content="Hi, Welcome to BlackJack" HorizontalAlignment="Left" VerticalAlignment="Center" Width="557" Height="41" FontSize="24" Foreground="White" OpacityMask="White" Margin="262,0,0,0"/>
         <Button x:Name="btnNewGame" Content="New Game" HorizontalAlignment="Left" Margin="46,198,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Foreground="#FF191414" Click="New_Game_Button_Click"/>
         <Button x:Name="btnHit" Content="Hit" HorizontalAlignment="Left" Margin="262,519,0,0" VerticalAlignment="Top" Height="33" Width="124" FontSize="16" Click="Hit_Button_Click" IsEnabled="False"/>
         <Button x:Name="btnStay" Content="Stay" HorizontalAlignment="Center" Margin="0,519,0,0" VerticalAlignment="Top" Height="32" Width="124" FontSize="16" Click="Stay_Button_Click" IsEnabled="False"/>
