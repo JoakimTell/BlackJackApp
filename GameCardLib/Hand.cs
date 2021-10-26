@@ -29,6 +29,7 @@ namespace BlackJackApp
         {
             LastCard = card;
             Score += (int) card.Value;
+            NumberOfCards++;
         }
 
         public void Clear()

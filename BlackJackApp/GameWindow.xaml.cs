@@ -138,11 +138,18 @@ namespace BlackJackApp
 
         private void PlayerNextCard()
         {
+            
+            
             if (!players[currentPlayer].IsFinnishied)
             {
                 players[currentPlayer].Hand.AddCard(deck.GetAt(0));
                 deck.RemoveCard(0);
-                playerCard3.Source = RevealCard(players[currentPlayer].Hand.LastCard);
+                int nmbrOfCards = players[currentPlayer].Hand.NumberOfCards;
+          
+                Image nextImage = VisualTreeHelper.GetChild(playerCards, nmbrOfCards) as Image;
+                nextImage.Source = RevealCard(players[currentPlayer].Hand.LastCard);
+               
+                //playerCard3.Source = RevealCard(players[currentPlayer].Hand.LastCard);
             }
         }
 
