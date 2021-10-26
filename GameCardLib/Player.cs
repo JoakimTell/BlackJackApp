@@ -18,7 +18,15 @@ namespace BlackJackApp
 
         public string PlayerID { get; set; }
 
-        public bool Winner { get; set; }
+        public bool Winner
+        {
+            get;
+            set;
+        }
+
+        public int Wins { get; set; }
+
+        public int Losses { get; set; }
         #endregion
 
         #region Constructors

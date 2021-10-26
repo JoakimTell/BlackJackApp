@@ -23,20 +23,21 @@ namespace BlackJackApp
         public Deck(List<Card> cardList)
         {
             randomArranger = new Random();
-            InitializeDeck(cardList);
-
+            cards = new ListManager<Card>(cardList);
         }
 
         // Fill deck of 52 cards.
-        public void InitializeDeck(List<Card> cardList)
+        public void InitializeDeck(int nbrOfDecks)
         {
-            cards = new ListManager<Card>(cardList);
             DiscardCards();
-            for (int s = 0; s < 4; s++) // Enum values of the four suites. 
+            for (int d = 0; d < nbrOfDecks; d++)
             {
-                for (int v = 1; v <= 13; v++) // Enum values from Ace to King.
+                for (int s = 0; s < 4; s++) // Enum values of the four suites. 
                 {
-                    cards.Add(new Card((Suit)s, (Value)v));
+                    for (int v = 1; v <= 13; v++) // Enum values from Ace to King.
+                    {
+                        cards.Add(new Card((Suit)s, (Value)v));
+                    }
                 }
             }
             Shuffle();

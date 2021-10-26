@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using UtilitiesLib;
 
 namespace BlackJackApp
 {
@@ -20,30 +21,35 @@ namespace BlackJackApp
     /// </summary>
     public partial class Menu : Window
     {
-        List<Player> players;
+        ListManager<Player> players;
         Deck deck;
-        public Menu(List<Player> players, Deck deck)
+
+        public Menu(ListManager<Player> players, Deck deck)
         {
             InitializeComponent();
             this.players = players;
             this.deck = deck;
-
         }
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
-            int nmbrOfPlayers = Int32.Parse(txtNmbrOfPlayers.Text);
+            bool okPlayers = int.TryParse(txtNmbrOfPlayers.Text.Trim(), out int nbrOfPlayers);
+            bool okDecks = int.TryParse(txtNmbrOfDecks.Text.Trim(), out int nbrOfDecks);
 
-            // Add dealer at index 0.
-            players.Add(new Player("DEALER", "Dealer", new Hand(deck)));
-           
-            // Add a list of players from index 1.
-            for (int i = 1; i <= nmbrOfPlayers; i++)
+            if (okPlayers && okDecks)
             {
-                players.Add(new Player(i.ToString(), $"Player {i}", new Hand(deck)));
-                Debug.WriteLine("Player number " + i + " added");
+                // Add dealer at index 0.
+                players.Add(new Player("DEALER", "Dealer", new Hand(deck)));
+                deck.InitializeDeck(nbrOfDecks);
+
+                // Add a list of players from index 1.
+                for (int i = 1; i <= nbrOfPlayers; i++)
+                {
+                    players.Add(new Player(i.ToString(), $"Player {i}", new Hand(deck)));
+                    Debug.WriteLine("Player number " + i + " added");
+                }
+                Close();
             }
-            this.Close();
         }
     }
 }

@@ -13,6 +13,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using UtilitiesLib;
 
 namespace BlackJackApp
 {
@@ -22,8 +23,9 @@ namespace BlackJackApp
     public partial class GameWindow : Window
     {
         private Deck deck;
-        private List<Player> players;
+        private ListManager<Player> players;
         private int currentPlayer;
+        private static int dealer;
 
         public GameWindow()
         {
@@ -34,7 +36,7 @@ namespace BlackJackApp
 
         private void Hit_Button_Click(object sender, RoutedEventArgs e)
         {
-            PlayerNextCard();
+            Hit();
             ScoreCheck();
         }
 
@@ -50,50 +52,91 @@ namespace BlackJackApp
 
         private void btnNewRound_Click(object sender, RoutedEventArgs e)
         {
+            btnNextPlayer.IsEnabled = true;
             if (players.Count > 0)
             {
-                currentPlayer = 0;
-                StartNewRound();
+                if (deck.GameIsDone)
+                {
+                    currentPlayer = 0;
+                    StartNewRound();
+                }
+                else
+                {
+                    MessageBox.Show("Finnish the started round first.");
+                }
             }
             else
             {
-                MessageBox.Show("Choose number of players in the menu");
+                MessageBox.Show("Choose number of players in the menu.");
             }
         }
 
         private void btnNextPlayer_Click(object sender, RoutedEventArgs e)
         {
             currentPlayer++;
-            if (!players[0].IsFinnishied) // Before dealers second turn, compare against dealers first card.
+            btnNextPlayer.Content = "Next Player";
+
+            if (!players.GetAt(dealer).IsFinnishied) // Before dealers second turn, compare against dealers first card.
             {
                 if (currentPlayer < players.Count)
                 {
-                    playerCard3.Source = null;
-                    playerCard4.Source = null;
-                    playerCard5.Source = null;
-                    playerCard6.Source = null;
-                    playerCard7.Source = null;
-                    playerCard8.Source = null;
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Image nextImage = VisualTreeHelper.GetChild(canvasPlayerCards, i) as Image;
+                        nextImage.Source = null;
+                    }
                     PlayerFirstTwoCards();
                     ScoreCheck();
+                    if (currentPlayer == players.Count - 1)
+                    {
+                        btnNextPlayer.Content = "Dealers round";
+                    }
                 }
                 else
                 {
-                    DealersSecondTurn();
-                    players[0].IsFinnishied = true;
+                    DealersSecondRound();
+                    players.GetAt(dealer).IsFinnishied = true;
                     currentPlayer = 0;
+                    lblMessage.Content = players.GetAt(dealer).Hand.Score > 21
+                        ? "Dealer busts. Remaining players win. Compare scores."
+                        : "Dealer stays. Compare scores.";
+                    lblPlayerName.Content = "";
+                    lblPlayerScoreCalc.Content = "";
+                    for (int i = 0; i < 8; i++)
+                    {
+                        Image nextImage = VisualTreeHelper.GetChild(canvasPlayerCards, i) as Image;
+                        nextImage.Source = null;
+                    }
+                    btnNextPlayer.Content = "Compare score";
                 }
             }
             else // Now compare players score to dealers final score.
             {
                 if (currentPlayer < players.Count)
                 {
+                    for (int i = 0; i < players.GetAt(currentPlayer).Hand.Cards.Count; i++)
+                    {
+                        Image nextImage = VisualTreeHelper.GetChild(canvasPlayerCards, i) as Image;
+                        nextImage.Source = RevealCard(players.GetAt(currentPlayer).Hand.Cards[i]);
+                    }
                     ScoreCheck();
                     ButtonsIsInPlaymode(false);
+                    if (currentPlayer == players.Count - 1)
+                    {
+                        btnNextPlayer.Content = "End Round";
+                    }
                 }
                 else
                 {
+                    deck.GameIsDone = true;
                     lblMessage.Content = "Round finnished. New game?";
+                    btnNextPlayer.Content = "Next Player";
+                    btnNextPlayer.IsEnabled = false;
+                    foreach (Player player in players.List)
+                    {
+                        player.Hand.Clear();
+                        player.IsFinnishied = true;
+                    }
                 }
             }
         }
@@ -101,7 +144,8 @@ namespace BlackJackApp
         private void New_Game_Button_Click(object sender, RoutedEventArgs e)
         {
             deck = new Deck(new List<Card>());
-            players = new List<Player>();
+            deck.GameIsDone = true;
+            players = new ListManager<Player>();
             Menu menu = new Menu(players, deck);
             menu.Show();
             ButtonsIsInPlaymode(false);
@@ -110,14 +154,23 @@ namespace BlackJackApp
 
         private void StartNewRound()
         {
-            // Reveal dealer first card and hide second card.
-            List<Card> dealerFirstTwoCards = deck.GetTwoCards();
-            players[0].Hand.AddCard(dealerFirstTwoCards[0]);
-            dealerCard1.Source = RevealCard(players[0].Hand.LastCard);
+            lblPlayerName.Content = "";
+            lblPlayerScoreCalc.Content = "";
+            lblMessage.Content = "Dealer is dealt first cards. Next player may start to play.";
+            for (int i = 0; i < 8; i++)
+            {
+                Image nextImage = VisualTreeHelper.GetChild(canvasPlayerCards, i) as Image;
+                nextImage.Source = null;
+                nextImage = VisualTreeHelper.GetChild(canvasDealerCards, i) as Image;
+                nextImage.Source = null;
+            }
 
-            players[0].Hand.LastCard = dealerFirstTwoCards[1];
-            dealerCard2.Source = HideCard();
-            lblDealerScoreCalc.Content = players[0].Hand.Score;
+            deck.GameIsDone = false;
+            foreach (Player player in players.List)
+            {
+                player.IsFinnishied = false;
+            }
+            DealersFirstTwoCards();
 
             ButtonsIsInPlaymode(false);
         }
@@ -125,70 +178,139 @@ namespace BlackJackApp
         // Set up the current player for a hand.
         private void PlayerFirstTwoCards()
         {
+            Hand hand = players.GetAt(currentPlayer).Hand;
             List<Card> playerFirstTwoCards = deck.GetTwoCards();
+            Image nextImage;
 
-            // Reveal first card.
-            players[currentPlayer].Hand.AddCard(playerFirstTwoCards[0]);
-            playerCard1.Source = RevealCard(players[currentPlayer].Hand.LastCard);
-
-            // Reveal second card.
-            players[currentPlayer].Hand.AddCard(playerFirstTwoCards[1]);
-            playerCard2.Source = RevealCard(players[currentPlayer].Hand.LastCard);
-        }
-
-        private void PlayerNextCard()
-        {
-            if (!players[currentPlayer].IsFinnishied)
+            // Reveal the players first two cards.
+            for (int i = 0; i < 2; i++)
             {
-                players[currentPlayer].Hand.AddCard(deck.GetAt(0));
-                deck.RemoveCard(0);
-                playerCard3.Source = RevealCard(players[currentPlayer].Hand.LastCard);
+                hand.AddCard(playerFirstTwoCards[i]);
+                nextImage = VisualTreeHelper.GetChild(canvasPlayerCards, i) as Image;
+                nextImage.Source = RevealCard(hand.LastCard);
             }
         }
 
-        // Reveal dealer second card.
-        private void DealersSecondTurn()
+        private void Hit()
         {
-            players[0].Hand.AddCard(players[0].Hand.LastCard);
-            dealerCard2.Source = RevealCard(players[0].Hand.LastCard);
-            lblDealerScoreCalc.Content = players[0].Hand.Score;
+            if (!players.GetAt(currentPlayer).IsFinnishied)
+            {
+                Hand hand = players.GetAt(currentPlayer).Hand;
+                Card card = deck.GetAt(0);
+
+                hand.AddCard(card);
+                deck.RemoveCard(0);
+
+                Image nextImage = VisualTreeHelper.GetChild(canvasPlayerCards, hand.NumberOfCards) as Image;
+                nextImage.Source = RevealCard(hand.LastCard);
+            }
+        }
+
+        // Dealer is dealt its first revealed card, and its hidden second card.
+        private void DealersFirstTwoCards()
+        {
+            Hand hand = players.GetAt(dealer).Hand;
+            List<Card> dealerFirstTwoCards = deck.GetTwoCards();
+
+            // Reaveal first added card.
+            hand.AddCard(dealerFirstTwoCards[0]);
+            dealerCard1.Source = RevealCard(hand.LastCard);
+
+            // Hide second added card.
+            hand.LastCard = dealerFirstTwoCards[1];
+            dealerCard2.Source = HideCard();
+
+            lblDealerScoreCalc.Content = hand.Score;
+        }
+
+        // Dealer plays until score is between 15 to 21, or gets busted.
+        private void DealersSecondRound()
+        {
+            Hand hand = players.GetAt(dealer).Hand;
+
+            // Reaveal second added card.
+            hand.AddCard(hand.LastCard);
+            dealerCard2.Source = RevealCard(hand.LastCard);
+
+            // Add more cards.
+            while (hand.Score < 15)
+            {
+                Card card = deck.GetAt(0);
+                hand.AddCard(card);
+                deck.RemoveCard(0);
+
+                // Show a new card for the dealer.
+                Image nextImage = VisualTreeHelper.GetChild(canvasDealerCards, hand.NumberOfCards) as Image;
+                nextImage.Source = RevealCard(hand.LastCard);
+            }
+
+            lblDealerScoreCalc.Content = hand.Score;
         }
 
         // Check player score and give message.
         private void ScoreCheck()
         {
-            lblPlayerName.Content = players[currentPlayer].Name;
-            lblPlayerScoreCalc.Content = players[currentPlayer].Hand.Score;
+            lblPlayerName.Content = players.GetAt(currentPlayer).Name;
+            lblPlayerScoreCalc.Content = players.GetAt(currentPlayer).Hand.Score;
 
             string message = "";
 
-            if (players[currentPlayer].Hand.Score == 21)
+            if (!players.GetAt(dealer).IsFinnishied)
             {
-                players[currentPlayer].Winner = true;
-                players[currentPlayer].IsFinnishied = true; // To not draw more cards after dealer.
-                ButtonsIsInPlaymode(false);
-                message = players[currentPlayer].ToString();
-            }
-            else if (players[currentPlayer].Hand.Score > 21)
-            {
-                players[currentPlayer].Winner = false;
-                players[currentPlayer].IsFinnishied = true; // To not draw more cards after dealer.
-                ButtonsIsInPlaymode(false);
-                message = players[currentPlayer].ToString();
+                if (players.GetAt(currentPlayer).Hand.Score == 21)
+                {
+                    players.GetAt(currentPlayer).Winner = true;
+                    players.GetAt(currentPlayer).IsFinnishied = true; // To not draw more cards after dealer.
+                    ButtonsIsInPlaymode(false);
+                    message = players.GetAt(currentPlayer).ToString();
+                }
+                else if (players.GetAt(currentPlayer).Hand.Score > 21)
+                {
+                    players.GetAt(currentPlayer).Winner = false;
+                    players.GetAt(currentPlayer).IsFinnishied = true; // To not draw more cards after dealer.
+                    ButtonsIsInPlaymode(false);
+                    message = players.GetAt(currentPlayer).ToString();
+                }
+                else
+                {
+                    if (players.GetAt(currentPlayer).Hand.Score < players.GetAt(dealer).Hand.Score)
+                    {
+                        message = "You have LESS points than the dealer.";
+                    }
+                    else if (players.GetAt(currentPlayer).Hand.Score > players.GetAt(dealer).Hand.Score)
+                    {
+                        message = "You have More points than the dealer.";
+                    }
+                    else if (players.GetAt(currentPlayer).Hand.Score == players.GetAt(dealer).Hand.Score)
+                    {
+                        message = "You have THE SAME score as the dealer.";
+                    }
+                    ButtonsIsInPlaymode(true);
+                }
             }
             else
             {
-                if (players[currentPlayer].Hand.Score < players[0].Hand.Score)
+                if (players.GetAt(currentPlayer).IsFinnishied)
                 {
-                    message = "You have LESS points than the dealer.";
+                    message = players.GetAt(currentPlayer).ToString();
                 }
-                else if (players[currentPlayer].Hand.Score > players[0].Hand.Score)
+                else if (players.GetAt(dealer).Hand.Score > 21)
                 {
-                    message = "You have More points than the dealer.";
+                    players.GetAt(currentPlayer).IsFinnishied = true;
+                    players.GetAt(currentPlayer).Winner = true;
+                    message = players.GetAt(currentPlayer).ToString();
                 }
-                else if (players[currentPlayer].Hand.Score == players[0].Hand.Score)
+                else if (players.GetAt(currentPlayer).Hand.Score < players.GetAt(dealer).Hand.Score)
                 {
-                    message = "You have THE SAME score as the dealer.";
+                    players.GetAt(currentPlayer).IsFinnishied = true;
+                    players.GetAt(currentPlayer).Winner = false;
+                    message = players.GetAt(currentPlayer).ToString();
+                }
+                else if (players.GetAt(currentPlayer).Hand.Score >= players.GetAt(dealer).Hand.Score)
+                {
+                    players.GetAt(currentPlayer).IsFinnishied = true;
+                    players.GetAt(currentPlayer).Winner = true;
+                    message = players.GetAt(currentPlayer).ToString();
                 }
                 ButtonsIsInPlaymode(true);
             }
