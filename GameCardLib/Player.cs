@@ -36,11 +36,23 @@ namespace BlackJackApp
             Name = name;
             Hand = hand;
         }
+
+        public Player(string id, int wins, int loses)
+        {
+            PlayerID = id;
+            Wins = wins;
+            Losses = loses;
+        }
         #endregion
+
+        //public override string ToString()
+        //{
+        //    return $"{Name} {(Winner ? "is a winner!" : "lost...")}";
+        //}
 
         public override string ToString()
         {
-            return $"{Name} {(Winner ? "is a winner!" : "lost...")}";
+            return this.PlayerID + this.Wins + this.Losses;
         }
     }
 }

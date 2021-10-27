@@ -140,6 +140,8 @@ namespace BlackJackApp
                 }
             }
         }
+        
+        
 
         private void New_Game_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -150,6 +152,19 @@ namespace BlackJackApp
             menu.Show();
             ButtonsIsInPlaymode(false);
             btnNextPlayer.IsEnabled = false;
+            AddPlayersToListView();
+            
+        }
+
+        private void AddPlayersToListView()
+        {
+
+            List<User> items = new List<User>();
+            items.Add(new User() { Name = "John Doe", Age = 42, });
+            items.Add(new User() { Name = "Jane Doe", Age = 39, });
+            items.Add(new User() { Name = "Sammy Doe", Age = 13, });
+            lstViewPlayerProgress.ItemsSource = items;
+            //lstViewPlayerProgress.ItemsSource = players.List;
         }
 
         private void StartNewRound()
@@ -260,6 +275,7 @@ namespace BlackJackApp
                 if (players.GetAt(currentPlayer).Hand.Score == 21)
                 {
                     players.GetAt(currentPlayer).Winner = true;
+                    players.GetAt(currentPlayer).Wins++;
                     players.GetAt(currentPlayer).IsFinnishied = true; // To not draw more cards after dealer.
                     ButtonsIsInPlaymode(false);
                     message = players.GetAt(currentPlayer).ToString();
@@ -267,6 +283,7 @@ namespace BlackJackApp
                 else if (players.GetAt(currentPlayer).Hand.Score > 21)
                 {
                     players.GetAt(currentPlayer).Winner = false;
+        
                     players.GetAt(currentPlayer).IsFinnishied = true; // To not draw more cards after dealer.
                     ButtonsIsInPlaymode(false);
                     message = players.GetAt(currentPlayer).ToString();
@@ -304,12 +321,14 @@ namespace BlackJackApp
                 {
                     players.GetAt(currentPlayer).IsFinnishied = true;
                     players.GetAt(currentPlayer).Winner = false;
+                    players.GetAt(currentPlayer).Losses++;
                     message = players.GetAt(currentPlayer).ToString();
                 }
                 else if (players.GetAt(currentPlayer).Hand.Score >= players.GetAt(dealer).Hand.Score)
                 {
                     players.GetAt(currentPlayer).IsFinnishied = true;
                     players.GetAt(currentPlayer).Winner = true;
+                    players.GetAt(currentPlayer).Wins++;
                     message = players.GetAt(currentPlayer).ToString();
                 }
                 ButtonsIsInPlaymode(true);

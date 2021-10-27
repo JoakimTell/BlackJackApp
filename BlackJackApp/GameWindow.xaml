@@ -10,14 +10,18 @@
         <ImageBrush ImageSource="Assets/background.png"></ImageBrush>
     </Window.Background>
     <Grid>
-        <Label x:Name="lblMessage" Content="Hi, Welcome to BlackJack" HorizontalAlignment="Left" VerticalAlignment="Center" Width="557" Height="41" FontSize="24" Foreground="White" OpacityMask="White" Margin="262,0,0,0"/>
-        <Button x:Name="btnNewGame" Content="New Game" HorizontalAlignment="Left" Margin="46,198,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Foreground="#FF191414" Click="New_Game_Button_Click"/>
-        <Button x:Name="btnHit" Content="Hit" HorizontalAlignment="Left" Margin="262,519,0,0" VerticalAlignment="Top" Height="33" Width="124" FontSize="16" Click="Hit_Button_Click" IsEnabled="False"/>
-        <Button x:Name="btnStay" Content="Stay" HorizontalAlignment="Center" Margin="0,519,0,0" VerticalAlignment="Top" Height="32" Width="124" FontSize="16" Click="Stay_Button_Click" IsEnabled="False"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="361,380,0,0" VerticalAlignment="Top" Width="100"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="398,380,0,0" VerticalAlignment="Top" Width="100"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="167*"/>
+            <ColumnDefinition Width="67*"/>
+            <ColumnDefinition Width="766*"/>
+        </Grid.ColumnDefinitions>
+        <Label x:Name="lblMessage" Content="Hi, Welcome to BlackJack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="701" Height="41" FontSize="24" Foreground="White" OpacityMask="White" Margin="35,251,0,0" Grid.ColumnSpan="3"/>
+        <Button x:Name="btnHit" Content="Hit" HorizontalAlignment="Left" Margin="0,519,0,0" VerticalAlignment="Top" Height="33" Width="124" FontSize="16" Click="Hit_Button_Click" IsEnabled="False" Grid.Column="2"/>
+        <Button x:Name="btnStay" Content="Stay" HorizontalAlignment="Left" Margin="188,521,0,0" VerticalAlignment="Top" Height="32" Width="124" FontSize="16" Click="Stay_Button_Click" IsEnabled="False" Grid.Column="2"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="127,380,0,0" VerticalAlignment="Top" Width="100" Grid.Column="2"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="165,380,0,0" VerticalAlignment="Top" Width="100" Grid.Column="2"/>
 
-        <Canvas x:Name="canvasPlayerCards" Grid.Column="0" Grid.Row="0" Margin="262,338,295,99">
+        <Canvas x:Name="canvasPlayerCards" Grid.Column="2" Grid.Row="0" Margin="29,338,295,99">
             <Image x:Name="playerCard1" Source="{Binding Player.Card[0]}" Height="144" Canvas.Left="2" Width="100" />
             <Image x:Name="playerCard2" Source="{Binding Player.Card[1]}" Height="144" Canvas.Left="50" Width="100" Canvas.Top="2"/>
             <Image x:Name="playerCard3" Source="{Binding Player.Card[2]}" Height="144" Canvas.Left="98" Width="100"/>
@@ -27,7 +31,7 @@
             <Image x:Name="playerCard7" Source="{Binding Player.Card[6]}" Height="144" Canvas.Left="290" Width="100" Canvas.Top="2"/>
             <Image x:Name="playerCard8" Source="{Binding Player.Card[7]}" Height="144" Canvas.Left="338" Width="100" Canvas.Top="2"/>
         </Canvas>
-        <Canvas x:Name="canvasDealerCards" Margin="262,56,295,379">
+        <Canvas x:Name="canvasDealerCards" Margin="29,56,295,379" Grid.Column="2">
             <Image x:Name="dealerCard1" Source="{Binding Dealer.Card[0]}" Height="144" Canvas.Top="2" Width="100"/>
             <Image x:Name="dealerCard2" Source="{Binding Dealer.Card[1]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="50"/>
             <Image x:Name="dealerCard3" Source="{Binding Dealer.Card[2]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="98"/>
@@ -37,14 +41,37 @@
             <Image x:Name="delearCard7" Source="{Binding Dealer.Card[6]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="290"/>
             <Image x:Name="dealerCard8" Source="{Binding Dealer.Card[7]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="338"/>
         </Canvas>
-        <Label x:Name="lblPlayerName" Content="Player" HorizontalAlignment="Left" Margin="45,477,0,0" VerticalAlignment="Top" Width="75" FontSize="18"/>
-        <Label Content="Dealer" HorizontalAlignment="Left" Margin="45,43,0,0" VerticalAlignment="Top" FontSize="18" Width="75"/>
-        <Label x:Name="lblPlayerScore" Content="Score" HorizontalAlignment="Left" Margin="45,521,0,0" VerticalAlignment="Top" Width="75" FontSize="20"/>
-        <Label x:Name="lblDealerScore" Content="Score" HorizontalAlignment="Left" Margin="45,77,0,0" VerticalAlignment="Top" Width="75" FontSize="20"/>
-        <Button x:Name="btnShuffle" Content="Shuffle" HorizontalAlignment="Left" Margin="612,519,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="Shuffle_Button_Click" IsEnabled="False"/>
-        <Label x:Name="lblDealerScoreCalc" Content="0" HorizontalAlignment="Left" Margin="147,82,0,0" VerticalAlignment="Top" FontSize="22"/>
-        <Label x:Name="lblPlayerScoreCalc" Content="0" HorizontalAlignment="Left" Margin="147,522,0,0" VerticalAlignment="Top" FontSize="22"/>
-        <Button x:Name="btnNewRound" Content="New Round" HorizontalAlignment="Left" Margin="45,315,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="btnNewRound_Click" IsEnabled="False"/>
-        <Button x:Name="btnNextPlayer" Content="Next Player" HorizontalAlignment="Left" Margin="46,425,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="btnNextPlayer_Click"/>
+        <Label x:Name="lblPlayerName" Content="Player" HorizontalAlignment="Center" Margin="0,477,0,0" VerticalAlignment="Top" Width="75" FontSize="18"/>
+        <Label Content="Dealer" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="18" Width="75"/>
+        <Label x:Name="lblPlayerScore" Content="Score" HorizontalAlignment="Center" Margin="0,521,0,0" VerticalAlignment="Top" Width="75" FontSize="20"/>
+        <Label x:Name="lblDealerScore" Content="Score" HorizontalAlignment="Center" Margin="0,77,0,0" VerticalAlignment="Top" Width="75" FontSize="20"/>
+        <Button x:Name="btnShuffle" Content="Shuffle" HorizontalAlignment="Left" Margin="364,519,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="Shuffle_Button_Click" IsEnabled="False" Grid.Column="2"/>
+        <Label x:Name="lblDealerScoreCalc" Content="0" HorizontalAlignment="Left" Margin="147,82,0,0" VerticalAlignment="Top" FontSize="22" Grid.ColumnSpan="2"/>
+        <Label x:Name="lblPlayerScoreCalc" Content="0" HorizontalAlignment="Left" Margin="147,522,0,0" VerticalAlignment="Top" FontSize="22" Grid.ColumnSpan="2"/>
+        <Button x:Name="btnNewRound" Content="New Round" HorizontalAlignment="Left" Margin="46,357,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="btnNewRound_Click" IsEnabled="False" Grid.ColumnSpan="2" RenderTransformOrigin="0.512,0.298"/>
+        <Button x:Name="btnNextPlayer" Content="Next Player" HorizontalAlignment="Left" Margin="46,425,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="btnNextPlayer_Click" Grid.ColumnSpan="2"/>
+        <DockPanel LastChildFill="False" Margin="0,0,0,2" Grid.ColumnSpan="3">
+            <Menu DockPanel.Dock="Top">
+                <MenuItem Header="_File">
+                    <MenuItem x:Name="Mnu_NewGame" Header="_New Game" Click="New_Game_Button_Click" />
+                    <MenuItem x:Name="Mnu_XML" Header="XML">
+                        <MenuItem x:Name="mnuXMLSerialize" Header="Serialize"/>
+                        <MenuItem x:Name="mnuXMLDeSerialize" Header="DeSerialize"/>
+                    </MenuItem>
+                    <Separator />
+                    <MenuItem x:Name="mnuExit" Header="_Exit" />
+                </MenuItem>
+            </Menu>
+            <TextBox AcceptsReturn="True" />
+        </DockPanel>
+        <ListView x:Name="lstViewPlayerProgress" Grid.Column="2" Margin="561,16,10,16" Background="White" BorderBrush="Black" Foreground="{x:Null}" FontSize="16">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn DisplayMemberBinding="{Binding ID}" Header="PlayerID" Width="70"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Wins}" Header="Wins" Width="60"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Loses}" Header="Loses" Width="60"></GridViewColumn>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </Window>
