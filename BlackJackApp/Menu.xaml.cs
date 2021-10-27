@@ -39,13 +39,13 @@ namespace BlackJackApp
             if (okPlayers && okDecks)
             {
                 // Add dealer at index 0.
-                players.Add(new Player("DEALER", "Dealer", new Hand(deck)));
+                players.Add(new Player("DEALER", "Dealer", new Hand(deck), 0,0));
                 deck.InitializeDeck(nbrOfDecks);
 
                 // Add a list of players from index 1.
                 for (int i = 1; i <= nbrOfPlayers; i++)
                 {
-                    players.Add(new Player(i.ToString(), $"Player {i}", new Hand(deck)));
+                    players.Add(new Player(i.ToString(), $"Player {i}", new Hand(deck),0,0));
                     Debug.WriteLine("Player number " + i + " added");
                 }
                 Close();

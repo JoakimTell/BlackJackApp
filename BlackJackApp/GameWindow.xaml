@@ -62,14 +62,13 @@
                     <MenuItem x:Name="mnuExit" Header="_Exit" />
                 </MenuItem>
             </Menu>
-            <TextBox AcceptsReturn="True" />
         </DockPanel>
-        <ListView x:Name="lstViewPlayerProgress" Grid.Column="2" Margin="561,16,10,16" Background="White" BorderBrush="Black" Foreground="{x:Null}" FontSize="16">
+        <ListView x:Name="lstViewPlayerProgress" Grid.Column="2" Margin="492,22,0,-4" BorderBrush="{x:Null}" Foreground="Black" FontSize="16" HorizontalAlignment="Left" Width="200" Background="{x:Null}">
             <ListView.View>
-                <GridView>
-                    <GridViewColumn DisplayMemberBinding="{Binding ID}" Header="PlayerID" Width="70"></GridViewColumn>
+                <GridView AllowsColumnReorder="False">
+                    <GridViewColumn DisplayMemberBinding="{Binding PlayerID}" Header="PlayerID" Width="70"></GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Wins}" Header="Wins" Width="60"></GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Loses}" Header="Loses" Width="60"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding Losses}" Header="Loses" Width="60"></GridViewColumn>
                 </GridView>
             </ListView.View>
         </ListView>

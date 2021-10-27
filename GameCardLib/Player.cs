@@ -30,29 +30,20 @@ namespace BlackJackApp
         #endregion
 
         #region Constructors
-        public Player(string id, string name, Hand hand)
+        public Player(string id, string name, Hand hand, int wins, int loses)
         {
             PlayerID = id;
             Name = name;
             Hand = hand;
-        }
-
-        public Player(string id, int wins, int loses)
-        {
-            PlayerID = id;
             Wins = wins;
             Losses = loses;
         }
-        #endregion
 
-        //public override string ToString()
-        //{
-        //    return $"{Name} {(Winner ? "is a winner!" : "lost...")}";
-        //}
+        #endregion
 
         public override string ToString()
         {
-            return this.PlayerID + this.Wins + this.Losses;
+            return $"{Name} {(Winner ? "is a winner!" : "lost...")}";
         }
     }
 }
