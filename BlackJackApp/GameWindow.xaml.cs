@@ -41,7 +41,7 @@ namespace BlackJackApp
             ScoreCheck();
 
 
-            
+
         }
 
         private void Stay_Button_Click(object sender, RoutedEventArgs e)
@@ -49,9 +49,9 @@ namespace BlackJackApp
             ButtonsIsInPlaymode(false);
         }
 
-        private void Deck_LowOnCards(object sender, EventArgs e)
+        private void On_Deck_LowOnCards_GUI(object sender, EventArgs e)
         {
-            Debug.WriteLine("GUI: Deck says it is running low on cards! Reshuffle!");
+            Debug.WriteLine("GUI method reached!");
             // ShuffleCardsEffect();
         }
 
@@ -164,7 +164,19 @@ namespace BlackJackApp
             menu.Show();
             ButtonsIsInPlaymode(false);
             btnNextPlayer.IsEnabled = false;
-            deck.DeckIsRunningOut += Deck_LowOnCards;
+            deck.DeckIsRunningOut += On_Deck_LowOnCards_GUI;
+            deck.DeckIsRunningOut += (object sender, EventArgs e) =>
+            { //Lambda statement
+                Debug.WriteLine("GUI Lambda statement reached!");
+                // Do something GUIy(object sender, EventArgs e) => On_Deck_LowOnCards_GUI
+            };
+            deck.DeckIsRunningOut += (object sender, EventArgs e) => LambdaExpression(sender, e);
+        }
+
+        private void LambdaExpression(object sender, EventArgs e)
+        {
+            Debug.WriteLine("GUI Lambda expression reached!");
+            // Do something GUIy again
         }
 
         public void AddPlayersToListView()
@@ -182,7 +194,7 @@ namespace BlackJackApp
             }
             else
             {
-                lstViewPlayerProgress.Items.Refresh(); 
+                lstViewPlayerProgress.Items.Refresh();
             }
         }
 
@@ -386,7 +398,7 @@ namespace BlackJackApp
             btnNextPlayer.IsEnabled = !playing;
             btnNewRound.IsEnabled = !playing;
         }
-     
+
 
         private void mnuXMLSerialize_Click(object sender, RoutedEventArgs e)
         {

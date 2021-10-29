@@ -54,6 +54,10 @@ namespace BlackJackApp
                     
                 }
                 Debug.WriteLine("");
+                foreach (Player player in players.List)
+                {
+                    deck.DeckIsRunningOut += player.On_Deck_LowOnCards_Player;
+                }
                 Close();
             }
         }

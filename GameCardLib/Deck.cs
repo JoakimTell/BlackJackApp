@@ -9,7 +9,7 @@ using UtilitiesLib;
 
 namespace BlackJackApp
 {
-    public delegate void OnDeckIsRunninOutEventHandler(Object source, EventArgs eventArgs);
+    public delegate void OnDeckIsRunninOutEventHandler(object source, EventArgs eventArgs);
 
     public class Deck
     {

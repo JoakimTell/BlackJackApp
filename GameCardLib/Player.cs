@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,6 +32,11 @@ namespace BlackJackApp
 
         public int Losses { get; set; }
         #endregion
+
+        public void On_Deck_LowOnCards_Player(object sender, EventArgs e)
+        {
+            Debug.WriteLine("Player " + PlayerID + " method reached!");
+        }
 
         #region Constructors
         public Player(string id, string name, Hand hand, int wins, int loses)
