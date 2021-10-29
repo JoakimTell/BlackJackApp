@@ -66,7 +66,12 @@
         <ListView x:Name="lstViewPlayerProgress" Grid.Column="2" Margin="492,22,0,-4" BorderBrush="{x:Null}" Foreground="Black" FontSize="16" HorizontalAlignment="Left" Width="200" Background="{x:Null}">
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
-                    <GridViewColumn DisplayMemberBinding="{Binding PlayerID}" Header="PlayerID" Width="70"></GridViewColumn>
+                    <GridView.ColumnHeaderContainerStyle>
+                        <Style TargetType="{x:Type GridViewColumnHeader}">
+                            <Setter Property="IsEnabled" Value="False"/>
+                        </Style>
+                    </GridView.ColumnHeaderContainerStyle>
+                    <GridViewColumn DisplayMemberBinding="{Binding PlayerID}" Header="PlayerID" Width="70" ></GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Wins}" Header="Wins" Width="60"></GridViewColumn>
                     <GridViewColumn DisplayMemberBinding="{Binding Losses}" Header="Loses" Width="60"></GridViewColumn>
                 </GridView>
