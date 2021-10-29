@@ -3,21 +3,24 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Serialization;
 
 namespace BlackJackApp
 {
+    [Serializable]
     public class Player
     {
 
         #region Properties
+        [XmlIgnore]
         public Hand Hand { get; set; }
-
+        [XmlIgnore]
         public bool IsFinnishied { get; set; }
-
+        [XmlIgnore]
         public string Name { get; set; }
 
         public string PlayerID { get; set; }
-
+        [XmlIgnore]
         public bool Winner
         {
             get;
@@ -37,6 +40,11 @@ namespace BlackJackApp
             Hand = hand;
             Wins = wins;
             Losses = loses;
+        }
+
+        public Player()
+        {
+
         }
 
         #endregion

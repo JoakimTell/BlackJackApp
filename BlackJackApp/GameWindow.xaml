@@ -55,7 +55,7 @@
                 <MenuItem Header="_File">
                     <MenuItem x:Name="Mnu_NewGame" Header="_New Game" Click="New_Game_Button_Click" />
                     <MenuItem x:Name="Mnu_XML" Header="XML">
-                        <MenuItem x:Name="mnuXMLSerialize" Header="Serialize"/>
+                        <MenuItem x:Name="mnuXMLSerialize" Header="Serialize" Click="mnuXMLSerialize_Click"/>
                         <MenuItem x:Name="mnuXMLDeSerialize" Header="DeSerialize"/>
                     </MenuItem>
                     <Separator />

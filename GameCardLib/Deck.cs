@@ -9,6 +9,7 @@ using UtilitiesLib;
 
 namespace BlackJackApp
 {
+ 
     public class Deck
     {
         private ListManager<Card> cards;

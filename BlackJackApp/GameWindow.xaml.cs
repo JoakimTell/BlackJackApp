@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -331,6 +332,7 @@ namespace BlackJackApp
                     players.GetAt(currentPlayer).IsFinnishied = true;
                     players.GetAt(currentPlayer).Winner = false;
                     players.GetAt(currentPlayer).Losses++;
+                    players.GetAt(dealer).Wins++;
                     message = players.GetAt(currentPlayer).ToString();
                 }
                 else if (players.GetAt(currentPlayer).Hand.Score >= players.GetAt(dealer).Hand.Score)
@@ -371,6 +373,15 @@ namespace BlackJackApp
 
             btnNextPlayer.IsEnabled = !playing;
             btnNewRound.IsEnabled = !playing;
+        }
+     
+
+        private void mnuXMLSerialize_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.ShowDialog();
+            string saveFilePath = saveFile.FileName + ".xml";
+            players.XMLSerialize(saveFilePath);
         }
     }
 }
