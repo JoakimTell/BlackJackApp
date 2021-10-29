@@ -40,14 +40,20 @@ namespace BlackJackApp
             {
                 // Add dealer at index 0.
                 players.Add(new Player("DEALER", "Dealer", new Hand(deck), 0,0));
-                deck.InitializeDeck(nbrOfDecks);
+                deck.InitializeNewDeck(nbrOfDecks);
+                deck.Shuffle();
 
+                Debug.WriteLine("");
+                Debug.WriteLine("");
                 // Add a list of players from index 1.
                 for (int i = 1; i <= nbrOfPlayers; i++)
                 {
                     players.Add(new Player(i.ToString(), $"Player {i}", new Hand(deck),0,0));
+                    
                     Debug.WriteLine("Player number " + i + " added");
+                    
                 }
+                Debug.WriteLine("");
                 Close();
             }
         }

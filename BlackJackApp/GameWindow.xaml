@@ -4,8 +4,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:BlackJackApp"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="BlackJackApp" Height="600" Width="1000">
+        Title="Black Jack App" Height="600" Width="1000">
     <Window.Background>
         <ImageBrush ImageSource="Assets/background.png"></ImageBrush>
     </Window.Background>
@@ -45,7 +46,7 @@
         <Label Content="Dealer" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="18" Width="75"/>
         <Label x:Name="lblPlayerScore" Content="Score" HorizontalAlignment="Center" Margin="0,521,0,0" VerticalAlignment="Top" Width="75" FontSize="20"/>
         <Label x:Name="lblDealerScore" Content="Score" HorizontalAlignment="Center" Margin="0,77,0,0" VerticalAlignment="Top" Width="75" FontSize="20"/>
-        <Button x:Name="btnShuffle" Content="Shuffle" HorizontalAlignment="Left" Margin="364,519,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="Shuffle_Button_Click" IsEnabled="False" Grid.Column="2"/>
+        <Button x:Name="btnShuffle" Content="Shuffle" HorizontalAlignment="Left" Margin="364,519,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="Shuffle_Button_Click" IsEnabled="True" Grid.Column="2"/>
         <Label x:Name="lblDealerScoreCalc" Content="0" HorizontalAlignment="Left" Margin="147,82,0,0" VerticalAlignment="Top" FontSize="22" Grid.ColumnSpan="2"/>
         <Label x:Name="lblPlayerScoreCalc" Content="0" HorizontalAlignment="Left" Margin="147,522,0,0" VerticalAlignment="Top" FontSize="22" Grid.ColumnSpan="2"/>
         <Button x:Name="btnNewRound" Content="New Round" HorizontalAlignment="Left" Margin="46,357,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="btnNewRound_Click" IsEnabled="False" Grid.ColumnSpan="2" RenderTransformOrigin="0.512,0.298"/>

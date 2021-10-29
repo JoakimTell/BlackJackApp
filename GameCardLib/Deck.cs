@@ -9,11 +9,15 @@ using UtilitiesLib;
 
 namespace BlackJackApp
 {
- 
+    public delegate void OnDeckIsRunninOutEventHandler(Object source, EventArgs eventArgs);
+
     public class Deck
     {
         private ListManager<Card> cards;
         private readonly Random randomArranger;
+        private int nbrOfDecks;
+
+        public event OnDeckIsRunninOutEventHandler DeckIsRunningOut;
 
         #region Properties
         public bool GameIsDone { get; set; }
@@ -28,8 +32,9 @@ namespace BlackJackApp
         }
 
         // Fill deck of 52 cards.
-        public void InitializeDeck(int nbrOfDecks)
+        public void InitializeNewDeck(int nbrOfDecks)
         {
+            this.nbrOfDecks = nbrOfDecks;
             DiscardCards();
             for (int d = 0; d < nbrOfDecks; d++)
             {
@@ -41,9 +46,7 @@ namespace BlackJackApp
                     }
                 }
             }
-            Shuffle();
             ToString();
-            Debug.WriteLine($"Sum of values of the cards in the deck: {SumOfCards()}");
         }
 
         // Remove all cards from the deck.
@@ -81,14 +84,8 @@ namespace BlackJackApp
             return cards.Count;
         }
 
-        // This method has the same definition as the delegate from GUI.
-        public void OnShuffle(Object source, EventArgs eventArgs) // TODO: Event?
-        {
-            Shuffle();
-        }
-
         // Fisher–Yates shuffle.
-        private void Shuffle()
+        public void Shuffle()
         {
             int n = NumberOfCards();
             while (n > 1)
@@ -111,6 +108,17 @@ namespace BlackJackApp
         public void RemoveCard(int pos)
         {
             cards.DeleteAt(pos);
+
+            if (cards.Count == 46) // typ 25% kvar senare...
+            {
+                DeckIsRunningOut?.Invoke(this, EventArgs.Empty);
+                Debug.WriteLine("From Deck: Only " + cards.Count + " cards left in the deck!");
+                ToString();
+                Debug.WriteLine("");
+                Debug.WriteLine("New deck: ");
+                InitializeNewDeck(nbrOfDecks);
+                Shuffle();
+            }
         }
 
         // Value of all cards in the deck combined.
@@ -146,6 +154,8 @@ namespace BlackJackApp
                 }
                 // End Debugging.
             }
+            Debug.WriteLine("");
+            Debug.WriteLine("");
             return cardsInDeck.ToString();
         }
     }

@@ -39,6 +39,9 @@ namespace BlackJackApp
         {
             Hit();
             ScoreCheck();
+
+
+            
         }
 
         private void Stay_Button_Click(object sender, RoutedEventArgs e)
@@ -46,9 +49,17 @@ namespace BlackJackApp
             ButtonsIsInPlaymode(false);
         }
 
+        private void Deck_LowOnCards(object sender, EventArgs e)
+        {
+            Debug.WriteLine("GUI: Deck says it is running low on cards! Reshuffle!");
+            // ShuffleCardsEffect();
+        }
+
         private void Shuffle_Button_Click(object sender, RoutedEventArgs e)
         {
-            //Shuffle...
+            deck.Shuffle();
+            deck.ToString();
+            // ShuffleCardsEffect();
         }
 
         private void btnNewRound_Click(object sender, RoutedEventArgs e)
@@ -153,6 +164,7 @@ namespace BlackJackApp
             menu.Show();
             ButtonsIsInPlaymode(false);
             btnNextPlayer.IsEnabled = false;
+            deck.DeckIsRunningOut += Deck_LowOnCards;
         }
 
         public void AddPlayersToListView()
