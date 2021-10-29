@@ -161,17 +161,17 @@ namespace BlackJackApp
             {
                 foreach (Player player in players.List)
                 {
-                    var row = new { PlayerID = player.PlayerID, Wins = player.Wins, Losses = player.Losses };
-                    lstViewPlayerProgress.Items.Add(player);
+                    if (!(player.PlayerID == "DEALER"))
+                    {
+                        var row = new { PlayerID = player.PlayerID, Wins = player.Wins, Losses = player.Losses };
+                        lstViewPlayerProgress.Items.Add(player);
+                    }
                 }
             }
             else
             {
-                lstViewPlayerProgress.Items.Refresh();
-            
-                
+                lstViewPlayerProgress.Items.Refresh(); 
             }
-
         }
 
         private void StartNewRound()

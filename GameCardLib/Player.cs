@@ -16,9 +16,9 @@ namespace BlackJackApp
         public Hand Hand { get; set; }
         [XmlIgnore]
         public bool IsFinnishied { get; set; }
-        [XmlIgnore]
+        
         public string Name { get; set; }
-
+        [XmlIgnore]
         public string PlayerID { get; set; }
         [XmlIgnore]
         public bool Winner
