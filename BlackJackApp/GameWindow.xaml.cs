@@ -25,6 +25,7 @@ namespace BlackJackApp
     {
         private Deck deck;
         private ListManager<Player> players;
+
         private int currentPlayer;
         private static int dealer;
 
@@ -35,13 +36,12 @@ namespace BlackJackApp
             btnNewRound.IsEnabled = false;
         }
 
+        #region IN GAME ACTION BUTTONS
+
         private void Hit_Button_Click(object sender, RoutedEventArgs e)
         {
             Hit();
             ScoreCheck();
-
-
-
         }
 
         private void Stay_Button_Click(object sender, RoutedEventArgs e)
@@ -49,38 +49,11 @@ namespace BlackJackApp
             ButtonsIsInPlaymode(false);
         }
 
-        private void On_Deck_LowOnCards_GUI(object sender, EventArgs e)
-        {
-            Debug.WriteLine("GUI method reached!");
-            // ShuffleCardsEffect();
-        }
-
         private void Shuffle_Button_Click(object sender, RoutedEventArgs e)
         {
             deck.Shuffle();
             deck.ToString();
             // ShuffleCardsEffect();
-        }
-
-        private void btnNewRound_Click(object sender, RoutedEventArgs e)
-        {
-            btnNextPlayer.IsEnabled = true;
-            if (players.Count > 0)
-            {
-                if (deck.GameIsDone)
-                {
-                    currentPlayer = 0;
-                    StartNewRound();
-                }
-                else
-                {
-                    MessageBox.Show("Finnish the started round first.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Choose number of players in the menu.");
-            }
         }
 
         private void btnNextPlayer_Click(object sender, RoutedEventArgs e)
@@ -152,8 +125,29 @@ namespace BlackJackApp
                 }
             }
         }
+        #endregion
 
-
+        #region OTHER BUTTONS
+        private void btnNewRound_Click(object sender, RoutedEventArgs e)
+        {
+            btnNextPlayer.IsEnabled = true;
+            if (players.Count > 0)
+            {
+                if (deck.GameIsDone)
+                {
+                    currentPlayer = 0;
+                    StartNewRound();
+                }
+                else
+                {
+                    MessageBox.Show("Finnish the started round first.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Choose number of players in the menu.");
+            }
+        }
 
         private void New_Game_Button_Click(object sender, RoutedEventArgs e)
         {
@@ -173,11 +167,28 @@ namespace BlackJackApp
             deck.DeckIsRunningOut += (object sender, EventArgs e) => LambdaExpression(sender, e);
         }
 
+        private void mnuXMLSerialize_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFileDialog saveFile = new SaveFileDialog();
+            saveFile.ShowDialog();
+            string saveFilePath = saveFile.FileName + ".xml";
+            players.XMLSerialize(saveFilePath);
+        }
+        #endregion
+
+        #region SUBSCRIBE TO EVENTS
+        private void On_Deck_LowOnCards_GUI(object sender, EventArgs e)
+        {
+            Debug.WriteLine("GUI method reached!");
+            // ShuffleCardsEffect();
+        }
+
         private void LambdaExpression(object sender, EventArgs e)
         {
             Debug.WriteLine("GUI Lambda expression reached!");
             // Do something GUIy again
         }
+        #endregion
 
         public void AddPlayersToListView()
         {
@@ -187,7 +198,7 @@ namespace BlackJackApp
                 {
                     if (!(player.PlayerID == "DEALER"))
                     {
-                        var row = new { PlayerID = player.PlayerID, Wins = player.Wins, Losses = player.Losses };
+                        var row = new { player.PlayerID, player.Wins, player.Losses };
                         lstViewPlayerProgress.Items.Add(player);
                     }
                 }
@@ -372,6 +383,7 @@ namespace BlackJackApp
             lblMessage.Content = message;
         }
 
+        #region IMAGE SETTERS
         // Show face value of card.
         private BitmapImage RevealCard(Card card)
         {
@@ -389,24 +401,17 @@ namespace BlackJackApp
             string path = System.IO.Path.Combine(projectPathLocal, @"Assets\Cards\", $"cardBack_blue.png");
             return new BitmapImage(new Uri(path));
         }
+        #endregion
 
+        #region BUTTON ENABLING
         private void ButtonsIsInPlaymode(bool playing)
         {
             btnHit.IsEnabled = playing;
             btnStay.IsEnabled = playing;
-
             btnNextPlayer.IsEnabled = !playing;
             btnNewRound.IsEnabled = !playing;
         }
-
-
-        private void mnuXMLSerialize_Click(object sender, RoutedEventArgs e)
-        {
-            SaveFileDialog saveFile = new SaveFileDialog();
-            saveFile.ShowDialog();
-            string saveFilePath = saveFile.FileName + ".xml";
-            players.XMLSerialize(saveFilePath);
-        }
+        #endregion
     }
 }
 

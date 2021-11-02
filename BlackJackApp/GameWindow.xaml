@@ -77,6 +77,11 @@
                     <GridViewColumn DisplayMemberBinding="{Binding Losses}" Header="Loses" Width="60"></GridViewColumn>
                 </GridView>
             </ListView.View>
+            <ListView.ItemContainerStyle>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <Setter Property="Background" Value="Transparent" />
+                </Style>
+            </ListView.ItemContainerStyle>
         </ListView>
     </Grid>
 </Window>
