@@ -21,12 +21,15 @@ namespace BlackJackApp
     /// </summary>
     public partial class Menu : Window
     {
+        Game game;
+
         ListManager<Player> players;
         Deck deck;
 
-        public Menu(ListManager<Player> players, Deck deck)
+        public Menu(Game game, ListManager<Player> players, Deck deck)
         {
             InitializeComponent();
+            this.game = game;
             this.players = players;
             this.deck = deck;
         }

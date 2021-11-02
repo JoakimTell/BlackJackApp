@@ -23,11 +23,13 @@ namespace BlackJackApp
     /// </summary>
     public partial class GameWindow : Window
     {
+        private Game game;
+
         private Deck deck;
         private ListManager<Player> players;
 
         private int currentPlayer;
-        private static int dealer;
+        private static int dealer = 0;
 
         public GameWindow()
         {
@@ -154,7 +156,8 @@ namespace BlackJackApp
             deck = new Deck(new List<Card>());
             deck.GameIsDone = true;
             players = new ListManager<Player>();
-            Menu menu = new Menu(players, deck);
+            game = new Game(players, deck);
+            Menu menu = new Menu(game, players, deck);
             menu.Show();
             ButtonsIsInPlaymode(false);
             btnNextPlayer.IsEnabled = false;
