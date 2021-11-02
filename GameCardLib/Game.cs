@@ -7,6 +7,9 @@ using UtilitiesLib;
 
 namespace BlackJackApp
 {
+    public delegate void OnScoreCheckPlayerEventHandler(object source, EventArgs eventArgs);
+    public delegate void OnScoreCheckButtonEventHandler(object source, EventArgs eventArgs);
+
     public class Game
     {
         private ListManager<Player> players;
@@ -14,6 +17,9 @@ namespace BlackJackApp
 
         private int currentPlayerPos;
         private static int dealerPos = 0;
+
+        public event OnScoreCheckPlayerEventHandler CheckingScorePlayer;
+        public event OnScoreCheckButtonEventHandler CheckingScoreButton;
 
         public Game(ListManager<Player> players, Deck deck)
         {
@@ -26,6 +32,7 @@ namespace BlackJackApp
         {
             //lblPlayerName.Content = player.Name;
             //lblPlayerScoreCalc.Content = playerScore;
+            CheckingScorePlayer?.Invoke(this, EventArgs.Empty);
 
             string message = "";
 

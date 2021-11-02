@@ -43,7 +43,8 @@ namespace BlackJackApp
         private void Hit_Button_Click(object sender, RoutedEventArgs e)
         {
             Hit();
-            ScoreCheck();
+            //ScoreCheck();
+            game.ScoreCheck();
         }
 
         private void Stay_Button_Click(object sender, RoutedEventArgs e)
@@ -73,7 +74,8 @@ namespace BlackJackApp
                         nextImage.Source = null;
                     }
                     PlayerFirstTwoCards();
-                    ScoreCheck();
+                    //ScoreCheck();
+                    game.ScoreCheck();
                     if (currentPlayer == players.Count - 1)
                     {
                         btnNextPlayer.Content = "Dealers round";
@@ -106,7 +108,8 @@ namespace BlackJackApp
                         Image nextImage = VisualTreeHelper.GetChild(canvasPlayerCards, i) as Image;
                         nextImage.Source = RevealCard(players.GetAt(currentPlayer).Hand.Cards[i]);
                     }
-                    ScoreCheck();
+                    //ScoreCheck();
+                    game.ScoreCheck();
                     ButtonsIsInPlaymode(false);
                     if (currentPlayer == players.Count - 1)
                     {
@@ -161,6 +164,9 @@ namespace BlackJackApp
             menu.Show();
             ButtonsIsInPlaymode(false);
             btnNextPlayer.IsEnabled = false;
+            game.CheckingScorePlayer += DisplayCurrentPlayer;
+            game.CheckingScoreButton += DisplayCurrentPlayer;
+
             deck.DeckIsRunningOut += On_Deck_LowOnCards_GUI;
             deck.DeckIsRunningOut += (object sender, EventArgs e) =>
             { //Lambda statement
@@ -191,6 +197,14 @@ namespace BlackJackApp
             Debug.WriteLine("GUI Lambda expression reached!");
             // Do something GUIy again
         }
+
+        private void DisplayCurrentPlayer(object sender, EventArgs e)
+        {
+            lblPlayerName.Content = players.GetAt(currentPlayer).Name;
+            lblPlayerScoreCalc.Content = players.GetAt(currentPlayer).Hand.Score;
+        }
+
+
         #endregion
 
         public void AddPlayersToListView()
