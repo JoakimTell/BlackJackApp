@@ -39,7 +39,9 @@ namespace BlackJackApp
             if (okPlayers && okDecks)
             {
                 // Add dealer at index 0.
-                players.Add(new Player("DEALER", "Dealer", new Hand(deck), 0,0));
+                Player dealer = new Player("Dealer", new Hand(deck));
+                players.Add(dealer);
+                
                 deck.InitializeNewDeck(nbrOfDecks);
                 deck.Shuffle();
 
@@ -48,15 +50,54 @@ namespace BlackJackApp
                 // Add a list of players from index 1.
                 for (int i = 1; i <= nbrOfPlayers; i++)
                 {
-                    players.Add(new Player(i.ToString(), $"Player {i}", new Hand(deck),0,0));
-                    
-                    Debug.WriteLine("Player number " + i + " added");
+                    string name = $"Player {i}";
+                    Player player = new Player(name, new Hand(deck));
+                    players.Add(player);
+
+                    Debug.WriteLine("Player '" + name + "' added.");
                     
                 }
-                Debug.WriteLine("");
-                foreach (Player player in players.List)
+
+                using (var db = new PlayerContext())
                 {
-                    deck.DeckIsRunningOut += player.On_Deck_LowOnCards_Player;
+                    db.ChipTrays.RemoveRange(db.ChipTrays);
+                    db.Players.RemoveRange(db.Players);
+                    db.SaveChanges();
+
+                    for (int i = 1; i <= nbrOfPlayers; i++)
+                    {
+                        db.Players.Add(players.List[i]);
+                        db.ChipTrays.Add(new ChipTray());
+                        db.SaveChanges();
+                    }
+
+                    // Display all Players from the database
+                    var query1 = from p in db.Players
+                                 orderby p.Name
+                                 select p;
+
+                    Debug.WriteLine("All players in the database:");
+
+                    foreach (var item in query1)
+                    {
+                        Debug.WriteLine("Player name: " + item.Name);
+                    }
+
+                    // Display all Chip Trays from the database
+                    var query2 = from c in db.ChipTrays
+                                 select c;
+
+                    Debug.WriteLine("All Chip Trays in the database:");
+                    foreach (var item in query2)
+                    {
+                        Debug.WriteLine("Chip Tray ID: " + item.ID);
+                    }
+                }
+
+                Debug.WriteLine("");
+                foreach (Player pl in players.List)
+                {
+                    deck.DeckIsRunningOut += pl.On_Deck_LowOnCards_Player;
                 }
                 Close();
             }

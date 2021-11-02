@@ -190,15 +190,15 @@ namespace BlackJackApp
         }
         #endregion
 
-        public void AddPlayersToListView()
+        public void ListViewHandler()
         {
             if (lstViewPlayerProgress.Items.Count == 0)
             {
                 foreach (Player player in players.List)
                 {
-                    if (!(player.PlayerID == "DEALER"))
+                    if (!(player.Name == "Dealer"))
                     {
-                        var row = new { player.PlayerID, player.Wins, player.Losses };
+                        var row = new { player.Name, player.Wins, player.Losses };
                         lstViewPlayerProgress.Items.Add(player);
                     }
                 }
@@ -211,7 +211,7 @@ namespace BlackJackApp
 
         private void StartNewRound()
         {
-            AddPlayersToListView();
+            ListViewHandler();
             lblPlayerName.Content = "";
             lblPlayerScoreCalc.Content = "";
             lblMessage.Content = "Dealer is dealt first cards. Next player may start to play.";

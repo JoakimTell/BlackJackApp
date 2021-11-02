@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
@@ -14,23 +15,22 @@ namespace BlackJackApp
 
         #region Properties
         [XmlIgnore]
+        [NotMapped]
         public Hand Hand { get; set; }
         [XmlIgnore]
         public bool IsFinnishied { get; set; }
-        
+
         public string Name { get; set; }
         [XmlIgnore]
         public string PlayerID { get; set; }
         [XmlIgnore]
-        public bool Winner
-        {
-            get;
-            set;
-        }
+        public bool Winner { get; set; }
 
         public int Wins { get; set; }
 
         public int Losses { get; set; }
+
+        public virtual List<ChipTray> ChipTrays { get; set; }
         #endregion
 
         public void On_Deck_LowOnCards_Player(object sender, EventArgs e)
@@ -39,13 +39,13 @@ namespace BlackJackApp
         }
 
         #region Constructors
-        public Player(string id, string name, Hand hand, int wins, int loses)
+        public Player(string name, Hand hand)
         {
-            PlayerID = id;
+            PlayerID = Guid.NewGuid().ToString("N");
             Name = name;
             Hand = hand;
-            Wins = wins;
-            Losses = loses;
+            Wins = 0;
+            Losses = 0;
         }
 
         public Player()
