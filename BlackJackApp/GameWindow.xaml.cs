@@ -42,7 +42,7 @@ namespace BlackJackApp
 
         private void Hit_Button_Click(object sender, RoutedEventArgs e)
         {
-            Hit();
+            game.Hit();
         }
 
         private void Stay_Button_Click(object sender, RoutedEventArgs e)
@@ -63,7 +63,6 @@ namespace BlackJackApp
             game.CurrentPlayerPos++;
             btnNextPlayer.Content = "Next Player";
 
-            //NextMove();
             game.NextMove();
         }
         #endregion
@@ -185,26 +184,6 @@ namespace BlackJackApp
             ButtonsIsInPlaymode(false);
         }
 
-        private void Hit()
-        {
-            Player player = players.GetAt(currentPlayer);
-            Hand hand = player.Hand;
-
-            if (!player.IsFinnishied)
-            {
-                int first = 0;
-                Card card = deck.GetAt(first);
-
-                hand.AddCard(card);
-                deck.RemoveCard(first);
-
-                Image nextImage = VisualTreeHelper.GetChild(canvasPlayerCards, hand.NumberOfCards) as Image;
-                nextImage.Source = RevealCard(hand.LastCard);
-            }
-            //ScoreCheck();
-            game.ScoreCheck();
-        }
-
         // Dealer is dealt its first revealed card, and its hidden second card.
         private void DealersFirstTwoCards()
         {
@@ -216,17 +195,22 @@ namespace BlackJackApp
             int second = 1;
 
             // Reaveal first added card.
-            hand.AddCard(twoCards[first]);
-            dealerCard1.Source = RevealCard(hand.LastCard);
+            
+            Card card = twoCards[first];
+            int cardPos = first;
+            hand.AddCard(card);
+            Image nextImage = VisualTreeHelper.GetChild(canvasPlayerCards, cardPos) as Image;
+            nextImage.Source = RevealCard(card);
 
             // Hide second added card.
-            hand.LastCard = twoCards[second];
-            dealerCard2.Source = HideCard();
+            card = twoCards[second];
+            cardPos = second;
+            hand.LastCard = card;
+            Image nextImage = VisualTreeHelper.GetChild(canvasPlayerCards, cardPos) as Image;
+            nextImage.Source = HideCard();
 
             lblDealerScoreCalc.Content = hand.Score;
         }
-
-
 
         #region IMAGE SETTERS
         // Show face value of card.
@@ -336,8 +320,6 @@ namespace BlackJackApp
         //    }
         //    lblMessage.Content = message;
         //}
-        #endregion
-
         //private void NextMove()
         //{
         //    if (!players.GetAt(dealerPos).IsFinnishied) // Before dealers second turn, compare against dealers first card.
@@ -446,6 +428,26 @@ namespace BlackJackApp
 
         //    lblDealerScoreCalc.Content = hand.Score;
         //}
+        //private void Hit()
+        //{
+        //    Player player = players.GetAt(currentPlayer);
+        //    Hand hand = player.Hand;
+
+        //    if (!player.IsFinnishied)
+        //    {
+        //        int first = 0;
+        //        Card card = deck.GetAt(first);
+
+        //        hand.AddCard(card);
+        //        deck.RemoveCard(first);
+
+        //        Image nextImage = VisualTreeHelper.GetChild(canvasPlayerCards, hand.NumberOfCards) as Image;
+        //        nextImage.Source = RevealCard(hand.LastCard);
+        //    }
+        //    //ScoreCheck();
+        //    game.ScoreCheck();
+        //}
+        #endregion
     }
 }
 
