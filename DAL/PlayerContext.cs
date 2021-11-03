@@ -42,8 +42,8 @@ namespace BlackJackApp
             {
                 // Display all Players from the database
                 var query = from p in db.Players
-                             orderby p.Name
-                             select p;
+                            orderby p.Name
+                            select p;
 
                 Debug.WriteLine("All players in the database:");
                 foreach (var item in query)
@@ -58,8 +58,8 @@ namespace BlackJackApp
             using (var db = new PlayerContext())
             {
                 // Display all Chip Trays from the database
-                var query =     from c in db.ChipTrays
-                                select c;
+                var query = from c in db.ChipTrays
+                            select c;
 
                 Debug.WriteLine("All Chip Trays in the database:");
                 foreach (var item in query)
@@ -69,18 +69,17 @@ namespace BlackJackApp
             }
         }
 
-        public static List<Player> FindPlayer(string searchString)
+        public static List<Player> FindPlayer(string searchString, PlayerContext context)
         {
-            IEnumerable<Player> searchResultPlayers;
+            List<Player> searchResultPlayers;
 
-            using (var context = new PlayerContext())
-            {
-                // Query for all players with names containing a search string.
-                searchResultPlayers =   from p in context.Players
-                                        where p.Name.Contains(searchString)
-                                        select p;
-            }
-            return searchResultPlayers.ToList();
+            // Query for all players with names containing a search string.
+            var query = from p in context.Players
+                        where p.Name.Contains(searchString)
+                        select p;
+
+            searchResultPlayers = query.ToList();
+            return searchResultPlayers;
         }
     }
 }

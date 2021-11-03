@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,7 +28,8 @@ namespace BlackJackApp
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             string searchString = txtSearch.Text;
-            List<Player> foundPlayers = PlayerContext.FindPlayer(searchString);
+            PlayerContext context = new PlayerContext();
+            List<Player> foundPlayers = PlayerContext.FindPlayer(searchString, context);
 
             if (lstViewSearchResults.Items.Count == 0)
             {
@@ -35,7 +37,7 @@ namespace BlackJackApp
                 {
                     if (!(player.Name == "Dealer"))
                     {
-                        var row = new { player.Name, player.Wins, player.Losses };
+                        Debug.WriteLine("Name: " + player.Name + " --- ID: " + player.PlayerID);
                         lstViewSearchResults.Items.Add(player);
                     }
                 }
@@ -44,6 +46,8 @@ namespace BlackJackApp
             {
                 lstViewSearchResults.Items.Refresh();
             }
+
+            context.Dispose();
         }
     }
 }

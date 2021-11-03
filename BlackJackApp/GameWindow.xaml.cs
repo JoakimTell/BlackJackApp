@@ -415,7 +415,8 @@ namespace BlackJackApp
 
         private void Mnu_Search_Click(object sender, RoutedEventArgs e)
         {
-            new Search();
+            Search search = new Search();
+            search.Show();
         }
     }
 }
