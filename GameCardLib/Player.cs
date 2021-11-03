@@ -39,14 +39,15 @@ namespace BlackJackApp
         }
 
         #region Constructors
-        public Player(int id, string name, Hand hand)
+        public Player(string name, Hand hand)
         {
-            PlayerID = id.ToString();
-            //PlayerID = Guid.NewGuid().ToString("N");
+            PlayerID = Guid.NewGuid().ToString("N");
             Name = name;
             Hand = hand;
             Wins = 0;
             Losses = 0;
+            ChipTrays = new List<ChipTray>();
+            ChipTrays.Add(new ChipTray());
         }
 
         public Player()

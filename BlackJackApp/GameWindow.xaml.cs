@@ -28,6 +28,7 @@ namespace BlackJackApp
 
         private int currentPlayer;
         private static int dealer;
+        private int bettedChips;
 
         public GameWindow()
         {
@@ -58,6 +59,7 @@ namespace BlackJackApp
 
         private void btnNextPlayer_Click(object sender, RoutedEventArgs e)
         {
+            lblBet.Content = 0;
             currentPlayer++;
             btnNextPlayer.Content = "Next Player";
 
@@ -99,6 +101,7 @@ namespace BlackJackApp
             {
                 if (currentPlayer < players.Count)
                 {
+                    lblBet.Content = players.GetAt(currentPlayer).ChipTrays[0].PlayerBetScore;
                     for (int i = 0; i < players.GetAt(currentPlayer).Hand.Cards.Count; i++)
                     {
                         Image nextImage = VisualTreeHelper.GetChild(canvasPlayerCards, i) as Image;
@@ -198,7 +201,7 @@ namespace BlackJackApp
                 {
                     if (!(player.Name == "Dealer"))
                     {
-                        var row = new { player.Name, player.Wins, player.Losses };
+                        var row = new { player.Name, player.ChipTrays[0].OneDollarChips, player.ChipTrays[0].FiveDollarChips, player.ChipTrays[0].TwentyDollarChips };
                         lstViewPlayerProgress.Items.Add(player);
                     }
                 }
@@ -319,6 +322,7 @@ namespace BlackJackApp
                 {
                     players.GetAt(currentPlayer).Winner = true;
                     players.GetAt(currentPlayer).Wins++;
+                    Chaching();
                     players.GetAt(currentPlayer).IsFinnishied = true; // To not draw more cards after dealer.
                     ButtonsIsInPlaymode(false);
                     message = players.GetAt(currentPlayer).ToString();
@@ -360,6 +364,7 @@ namespace BlackJackApp
                     players.GetAt(currentPlayer).Winner = true;
                     players.GetAt(dealer).Losses++;
                     players.GetAt(currentPlayer).Wins++;
+                    Chaching();
                     message = players.GetAt(currentPlayer).ToString();
                 }
                 else if (players.GetAt(currentPlayer).Hand.Score < players.GetAt(dealer).Hand.Score)
@@ -376,6 +381,7 @@ namespace BlackJackApp
                     players.GetAt(currentPlayer).Winner = true;
                     players.GetAt(currentPlayer).Wins++;
                     players.GetAt(dealer).Losses++;
+                    Chaching();
                     message = players.GetAt(currentPlayer).ToString();
                 }
                 ButtonsIsInPlaymode(true);
@@ -410,8 +416,83 @@ namespace BlackJackApp
             btnStay.IsEnabled = playing;
             btnNextPlayer.IsEnabled = !playing;
             btnNewRound.IsEnabled = !playing;
+            btnShuffle.IsEnabled = playing;
+            btnOneDollarChips.IsEnabled = playing;
+            btnFiveDollarChips.IsEnabled = playing;
+            btnTwentyDollarChips.IsEnabled = playing;
         }
         #endregion
+
+        private void OneDollarChips_Click(object sender, RoutedEventArgs e)
+        {
+            if(players.GetAt(currentPlayer).ChipTrays[0].OneDollarChips > 0)
+            {
+                players.GetAt(currentPlayer).ChipTrays[0].OneDollarChips -= 1;
+                lblBet.Content = players.GetAt(currentPlayer).ChipTrays[0].PlayerBetScore += 1;
+                ListViewHandler();
+            }
+            else
+            {
+                MessageBox.Show("You dont have enough One Dollar Chips to bet");
+            }
+
+        }
+
+        private void FiveDollarChips_Click(object sender, RoutedEventArgs e)
+        {
+            if (players.GetAt(currentPlayer).ChipTrays[0].FiveDollarChips > 0)
+            {
+                players.GetAt(currentPlayer).ChipTrays[0].FiveDollarChips -= 1;
+                lblBet.Content = players.GetAt(currentPlayer).ChipTrays[0].PlayerBetScore += 5;
+                ListViewHandler();
+            }
+            else
+            {
+                MessageBox.Show("You dont have enough Five Dollar Chips to bet");
+            }
+
+
+        }
+
+        private void TwentyDollarChips_Click(object sender, RoutedEventArgs e)
+        {
+            if (players.GetAt(currentPlayer).ChipTrays[0].TwentyDollarChips > 0)
+            {
+                players.GetAt(currentPlayer).ChipTrays[0].TwentyDollarChips -= 1;
+                lblBet.Content = players.GetAt(currentPlayer).ChipTrays[0].PlayerBetScore += 20;
+                ListViewHandler();
+            } 
+            else
+            {
+                MessageBox.Show("You dont have enough Twenty Dollar Chips to bet");
+            }
+
+
+
+                
+
+        }
+
+        private void Chaching()
+        {
+            int num = players.GetAt(currentPlayer).ChipTrays[0].PlayerBetScore; // 3*20 + 2*5 + 3*1
+
+            int twenties = num / 20;
+            int remainder20 = num % 20;
+            players.GetAt(currentPlayer).ChipTrays[0].TwentyDollarChips += (twenties*2);
+
+            int fives = remainder20 / 5;
+            int remainder5 = remainder20 % 5;
+            players.GetAt(currentPlayer).ChipTrays[0].FiveDollarChips += (fives*2);
+
+
+            int ones = remainder5 / 1;
+            int remainder1 = remainder5 % 1;
+            players.GetAt(currentPlayer).ChipTrays[0].OneDollarChips += (ones*2);
+
+            ListViewHandler();
+            Debug.WriteLine("twenties: " + twenties + ". fives: " + fives + ". ones: " + ones);
+        }
     }
 }
 

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ namespace BlackJackApp
         public int OneDollarChips { get; set; }
         public int FiveDollarChips { get; set; }
         public int TwentyDollarChips { get; set; }
+        [NotMapped]
+        public int PlayerBetScore { get; set; }
 
         public virtual Player Player { get; set; }
 

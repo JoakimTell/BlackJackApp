@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:BlackJackApp"
         WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
-        Title="Black Jack App" Height="600" Width="1000">
+        Title="Black Jack App" Height="900" Width="1400">
     <Window.Background>
         <ImageBrush ImageSource="Assets/background.png"></ImageBrush>
     </Window.Background>
@@ -16,43 +16,43 @@
             <ColumnDefinition Width="67*"/>
             <ColumnDefinition Width="766*"/>
         </Grid.ColumnDefinitions>
-        <Label x:Name="lblMessage" Content="Hi, Welcome to BlackJack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="701" Height="41" FontSize="24" Foreground="White" OpacityMask="White" Margin="35,251,0,0" Grid.ColumnSpan="3"/>
-        <Button x:Name="btnHit" Content="Hit" HorizontalAlignment="Left" Margin="0,519,0,0" VerticalAlignment="Top" Height="33" Width="124" FontSize="16" Click="Hit_Button_Click" IsEnabled="False" Grid.Column="2"/>
-        <Button x:Name="btnStay" Content="Stay" HorizontalAlignment="Left" Margin="188,521,0,0" VerticalAlignment="Top" Height="32" Width="124" FontSize="16" Click="Stay_Button_Click" IsEnabled="False" Grid.Column="2"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="127,380,0,0" VerticalAlignment="Top" Width="100" Grid.Column="2"/>
-        <Image HorizontalAlignment="Left" Height="100" Margin="165,380,0,0" VerticalAlignment="Top" Width="100" Grid.Column="2"/>
+        <Label x:Name="lblMessage" Content="Hi, Welcome to BlackJack" HorizontalAlignment="Left" VerticalAlignment="Top" Width="858" Height="72" FontSize="36" Foreground="White" OpacityMask="White" Margin="35,360,0,0" Grid.ColumnSpan="3"/>
+        <Button x:Name="btnHit" Content="Hit" HorizontalAlignment="Left" Margin="0,799,0,0" VerticalAlignment="Top" Height="48" Width="136" FontSize="16" Click="Hit_Button_Click" IsEnabled="False" Grid.Column="2" RenderTransformOrigin="0.465,1.158"/>
+        <Button x:Name="btnStay" Content="Stay" HorizontalAlignment="Left" Margin="177,799,0,0" VerticalAlignment="Top" Height="48" Width="136" FontSize="16" Click="Stay_Button_Click" IsEnabled="False" Grid.Column="2"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="107,369,0,0" VerticalAlignment="Top" Width="100" Grid.Column="2"/>
+        <Image HorizontalAlignment="Left" Height="100" Margin="145,369,0,0" VerticalAlignment="Top" Width="100" Grid.Column="2"/>
 
-        <Canvas x:Name="canvasPlayerCards" Grid.Column="2" Grid.Row="0" Margin="29,338,295,99">
-            <Image x:Name="playerCard1" Source="{Binding Player.Card[0]}" Height="144" Canvas.Left="2" Width="100" />
-            <Image x:Name="playerCard2" Source="{Binding Player.Card[1]}" Height="144" Canvas.Left="50" Width="100" Canvas.Top="2"/>
-            <Image x:Name="playerCard3" Source="{Binding Player.Card[2]}" Height="144" Canvas.Left="98" Width="100"/>
-            <Image x:Name="playerCard4" Source="{Binding Player.Card[3]}" Height="144" Canvas.Left="146" Width="100" Canvas.Top="2"/>
-            <Image x:Name="playerCard5" Source="{Binding Player.Card[4]}" Height="144" Canvas.Left="194" Width="100" Canvas.Top="2"/>
-            <Image x:Name="playerCard6" Source="{Binding Player.Card[5]}" Height="144" Canvas.Left="242" Width="100" Canvas.Top="2"/>
-            <Image x:Name="playerCard7" Source="{Binding Player.Card[6]}" Height="144" Canvas.Left="290" Width="100" Canvas.Top="2"/>
-            <Image x:Name="playerCard8" Source="{Binding Player.Card[7]}" Height="144" Canvas.Left="338" Width="100" Canvas.Top="2"/>
+        <Canvas x:Name="canvasPlayerCards" Grid.Column="1" Grid.Row="0" Margin="45,437,584,225" Grid.ColumnSpan="2">
+            <Image x:Name="playerCard1" Source="{Binding Player.Card[0]}" Height="220" Canvas.Left="2" Width="145" />
+            <Image x:Name="playerCard2" Source="{Binding Player.Card[1]}" Height="220" Canvas.Left="50" Width="145" Canvas.Top="2"/>
+            <Image x:Name="playerCard3" Source="{Binding Player.Card[2]}" Height="220" Canvas.Left="98" Width="145"/>
+            <Image x:Name="playerCard4" Source="{Binding Player.Card[3]}" Height="220" Canvas.Left="146" Width="145" Canvas.Top="2"/>
+            <Image x:Name="playerCard5" Source="{Binding Player.Card[4]}" Height="220" Canvas.Left="194" Width="145" Canvas.Top="2"/>
+            <Image x:Name="playerCard6" Source="{Binding Player.Card[5]}" Height="220" Canvas.Left="242" Width="145" Canvas.Top="2"/>
+            <Image x:Name="playerCard7" Source="{Binding Player.Card[6]}" Height="220" Canvas.Left="290" Width="145" Canvas.Top="2"/>
+            <Image x:Name="playerCard8" Source="{Binding Player.Card[7]}" Height="220" Canvas.Left="338" Width="145" Canvas.Top="2"/>
         </Canvas>
-        <Canvas x:Name="canvasDealerCards" Margin="29,56,295,379" Grid.Column="2">
-            <Image x:Name="dealerCard1" Source="{Binding Dealer.Card[0]}" Height="144" Canvas.Top="2" Width="100"/>
-            <Image x:Name="dealerCard2" Source="{Binding Dealer.Card[1]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="50"/>
-            <Image x:Name="dealerCard3" Source="{Binding Dealer.Card[2]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="98"/>
-            <Image x:Name="dealerCard4" Source="{Binding Dealer.Card[3]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="146"/>
-            <Image x:Name="dealerCard5" Source="{Binding Dealer.Card[4]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="194"/>
-            <Image x:Name="dealerCard6" Source="{Binding Dealer.Card[5]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="242"/>
-            <Image x:Name="delearCard7" Source="{Binding Dealer.Card[6]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="290"/>
-            <Image x:Name="dealerCard8" Source="{Binding Dealer.Card[7]}" Height="144" Canvas.Top="2" Width="100" Canvas.Left="338"/>
+        <Canvas x:Name="canvasDealerCards" Margin="77,60,564,501" Grid.Column="1" Grid.ColumnSpan="2">
+            <Image x:Name="dealerCard1" Source="{Binding Dealer.Card[0]}" Height="220" Canvas.Top="2" Width="145"/>
+            <Image x:Name="dealerCard2" Source="{Binding Dealer.Card[1]}" Height="220" Canvas.Top="2" Width="145" Canvas.Left="50"/>
+            <Image x:Name="dealerCard3" Source="{Binding Dealer.Card[2]}" Height="220" Canvas.Top="2" Width="145" Canvas.Left="98"/>
+            <Image x:Name="dealerCard4" Source="{Binding Dealer.Card[3]}" Height="220" Canvas.Top="2" Width="145" Canvas.Left="146"/>
+            <Image x:Name="dealerCard5" Source="{Binding Dealer.Card[4]}" Height="220" Canvas.Top="2" Width="145" Canvas.Left="194"/>
+            <Image x:Name="dealerCard6" Source="{Binding Dealer.Card[5]}" Height="220" Canvas.Top="2" Width="145" Canvas.Left="242"/>
+            <Image x:Name="delearCard7" Source="{Binding Dealer.Card[6]}" Height="220" Canvas.Top="2" Width="145" Canvas.Left="290"/>
+            <Image x:Name="dealerCard8" Source="{Binding Dealer.Card[7]}" Height="220" Canvas.Top="2" Width="145" Canvas.Left="338"/>
         </Canvas>
-        <Label x:Name="lblPlayerName" Content="Player" HorizontalAlignment="Center" Margin="0,477,0,0" VerticalAlignment="Top" Width="75" FontSize="18"/>
-        <Label Content="Dealer" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="18" Width="75"/>
-        <Label x:Name="lblPlayerScore" Content="Score" HorizontalAlignment="Center" Margin="0,521,0,0" VerticalAlignment="Top" Width="75" FontSize="20"/>
-        <Label x:Name="lblDealerScore" Content="Score" HorizontalAlignment="Center" Margin="0,77,0,0" VerticalAlignment="Top" Width="75" FontSize="20"/>
-        <Button x:Name="btnShuffle" Content="Shuffle" HorizontalAlignment="Left" Margin="364,519,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="Shuffle_Button_Click" IsEnabled="True" Grid.Column="2"/>
-        <Label x:Name="lblDealerScoreCalc" Content="0" HorizontalAlignment="Left" Margin="147,82,0,0" VerticalAlignment="Top" FontSize="22" Grid.ColumnSpan="2"/>
-        <Label x:Name="lblPlayerScoreCalc" Content="0" HorizontalAlignment="Left" Margin="147,522,0,0" VerticalAlignment="Top" FontSize="22" Grid.ColumnSpan="2"/>
-        <Button x:Name="btnNewRound" Content="New Round" HorizontalAlignment="Left" Margin="46,357,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="btnNewRound_Click" IsEnabled="False" Grid.ColumnSpan="2" RenderTransformOrigin="0.512,0.298"/>
-        <Button x:Name="btnNextPlayer" Content="Next Player" HorizontalAlignment="Left" Margin="46,425,0,0" VerticalAlignment="Top" Height="32" Width="123" FontSize="16" Click="btnNextPlayer_Click" Grid.ColumnSpan="2"/>
-        <DockPanel LastChildFill="False" Margin="0,0,0,2" Grid.ColumnSpan="3">
-            <Menu DockPanel.Dock="Top">
+        <Label x:Name="lblPlayerName" Content="Player" HorizontalAlignment="Left" Margin="54,703,0,0" VerticalAlignment="Top" Width="115" FontSize="24" Height="52"/>
+        <Label Content="Dealer" HorizontalAlignment="Center" Margin="0,43,0,0" VerticalAlignment="Top" FontSize="24" Width="97"/>
+        <Label x:Name="lblPlayerScore" Content="Score" HorizontalAlignment="Left" Margin="54,771,0,0" VerticalAlignment="Top" Width="86" FontSize="24" Height="56" RenderTransformOrigin="0.474,0.136"/>
+        <Label x:Name="lblDealerScore" Content="Score" HorizontalAlignment="Left" Margin="68,77,0,0" VerticalAlignment="Top" Width="75" FontSize="24"/>
+        <Button x:Name="btnShuffle" Content="Shuffle" HorizontalAlignment="Left" Margin="352,799,0,0" VerticalAlignment="Top" Height="48" Width="136" FontSize="16" Click="Shuffle_Button_Click" IsEnabled="False" Grid.Column="2" RenderTransformOrigin="0.435,0.614"/>
+        <Label x:Name="lblDealerScoreCalc" Content="0" HorizontalAlignment="Left" Margin="165,77,0,0" VerticalAlignment="Top" FontSize="24" Width="51"/>
+        <Label x:Name="lblPlayerScoreCalc" Content="0" HorizontalAlignment="Left" Margin="148,772,0,0" VerticalAlignment="Top" FontSize="24" Height="60" Width="42"/>
+        <Button x:Name="btnNewRound" Content="New Round" HorizontalAlignment="Center" Margin="0,501,0,0" VerticalAlignment="Top" Height="43" Width="163" FontSize="16" Click="btnNewRound_Click" IsEnabled="False" RenderTransformOrigin="0.512,0.298"/>
+        <Button x:Name="btnNextPlayer" Content="Next Player" HorizontalAlignment="Center" Margin="0,592,0,0" VerticalAlignment="Top" Height="42" Width="163" FontSize="16" Click="btnNextPlayer_Click"/>
+        <DockPanel LastChildFill="False" Margin="0,0,0,741" Grid.ColumnSpan="3">
+            <Menu DockPanel.Dock="Top" Height="34">
                 <MenuItem Header="_File">
                     <MenuItem x:Name="Mnu_NewGame" Header="_New Game" Click="New_Game_Button_Click" />
                     <MenuItem x:Name="Mnu_XML" Header="XML">
@@ -64,7 +64,7 @@
                 </MenuItem>
             </Menu>
         </DockPanel>
-        <ListView x:Name="lstViewPlayerProgress" Grid.Column="2" Margin="492,22,0,-4" BorderBrush="{x:Null}" Foreground="Black" FontSize="16" HorizontalAlignment="Left" Width="200" Background="{x:Null}">
+        <ListView x:Name="lstViewPlayerProgress" Grid.Column="2" Margin="570,43,0,183" BorderBrush="{x:Null}" Foreground="Black" FontSize="16" HorizontalAlignment="Left" Width="464" Background="{x:Null}">
             <ListView.View>
                 <GridView AllowsColumnReorder="False">
                     <GridView.ColumnHeaderContainerStyle>
@@ -73,8 +73,9 @@
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
                     <GridViewColumn DisplayMemberBinding="{Binding PlayerID}" Header="PlayerID" Width="70" ></GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Wins}" Header="Wins" Width="60"></GridViewColumn>
-                    <GridViewColumn DisplayMemberBinding="{Binding Losses}" Header="Loses" Width="60"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding ChipTrays[0].OneDollarChips}" Header="OneDollarChips" Width="120"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding ChipTrays[0].FiveDollarChips}" Header="FiveDollarChips" Width="120"></GridViewColumn>
+                    <GridViewColumn DisplayMemberBinding="{Binding ChipTrays[0].TwentyDollarChips}" Header="TwentyDollarChips" Width="140"></GridViewColumn>
                 </GridView>
             </ListView.View>
             <ListView.ItemContainerStyle>
@@ -83,5 +84,18 @@
                 </Style>
             </ListView.ItemContainerStyle>
         </ListView>
+        <Image Grid.Column="2" HorizontalAlignment="Left" Height="100" Margin="193,676,0,0" VerticalAlignment="Top" Width="100" Source="/Assets/BlackJackChip.png"/>
+        <Label x:Name="lblBet" Content="0" Grid.Column="2" HorizontalContentAlignment="Center" Margin="217,703,807,0" VerticalAlignment="Top" Height="40" Width="48" FontSize="24"/>
+        <Button x:Name="btnOneDollarChips" Canvas.Left="115" Canvas.Top="108" Margin="507,696,392,42" Grid.Column="2" Click="OneDollarChips_Click" IsEnabled="False">
+            <Image Height="116" Canvas.Left="15" Canvas.Top="6" Width="132" Source="/Assets/Onedollar.jpg" Stretch="Fill"/>
+        </Button>
+        <Button x:Name="btnFiveDollarChips" Canvas.Left="115" Canvas.Top="108" Margin="685,696,220,42" Grid.Column="2" Click="FiveDollarChips_Click" IsEnabled="False">
+            <Image Height="115" Canvas.Left="149" Canvas.Top="7" Width="142" Source="/Assets/FiveDollar.jpg"/>
+        </Button>
+        <Button x:Name="btnTwentyDollarChips" Canvas.Left="115" Canvas.Top="108" Margin="857,696,62,41" Grid.Column="2" Click="TwentyDollarChips_Click" IsEnabled="False">
+            <Image Height="112" Canvas.Left="297" Canvas.Top="6" Width="104" Source="/Assets/TwentiesDollar.jpg"/>
+        </Button>
+
+
     </Grid>
 </Window>

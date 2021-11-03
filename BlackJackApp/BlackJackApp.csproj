@@ -8,6 +8,10 @@
 
   <ItemGroup>
     <None Remove="Assets\background.png" />
+    <None Remove="Assets\BlackJackChip.png" />
+    <None Remove="Assets\FiveDollar.jpg" />
+    <None Remove="Assets\Onedollar.jpg" />
+    <None Remove="Assets\TwentiesDollar.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -22,6 +26,10 @@
 
   <ItemGroup>
     <Resource Include="Assets\background.png" />
+    <Resource Include="Assets\BlackJackChip.png" />
+    <Resource Include="Assets\FiveDollar.jpg" />
+    <Resource Include="Assets\Onedollar.jpg" />
+    <Resource Include="Assets\TwentiesDollar.jpg" />
   </ItemGroup>
 
 </Project>
