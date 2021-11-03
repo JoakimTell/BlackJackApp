@@ -18,9 +18,9 @@ namespace BlackJackApp
         public ChipTray()
         {
             ID = Guid.NewGuid().ToString("N");
-            OneDollarChips = 0;
-            FiveDollarChips = 0;
-            TwentyDollarChips = 0;
+            OneDollarChips = 25;
+            FiveDollarChips = 10;
+            TwentyDollarChips = 3;
         }
     }
 }

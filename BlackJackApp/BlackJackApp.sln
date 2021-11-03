@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameCardLib", "..\GameCardL
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UtilitiesLib", "..\UtilitiesLib\UtilitiesLib.csproj", "{61CFAAD0-B4E7-410E-8F58-9587289B153E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAL", "..\DAL\DAL.csproj", "{C6ED812A-163F-4EEB-A586-2A6EF7E291B2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{61CFAAD0-B4E7-410E-8F58-9587289B153E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{61CFAAD0-B4E7-410E-8F58-9587289B153E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{61CFAAD0-B4E7-410E-8F58-9587289B153E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C6ED812A-163F-4EEB-A586-2A6EF7E291B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C6ED812A-163F-4EEB-A586-2A6EF7E291B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C6ED812A-163F-4EEB-A586-2A6EF7E291B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C6ED812A-163F-4EEB-A586-2A6EF7E291B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

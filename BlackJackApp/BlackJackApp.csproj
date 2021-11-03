@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DAL\DAL.csproj" />
     <ProjectReference Include="..\GameCardLib\GameCardLib.csproj" />
     <ProjectReference Include="..\UtilitiesLib\UtilitiesLib.csproj" />
   </ItemGroup>
