@@ -26,6 +26,27 @@ namespace BlackJackApp
             }
         }
 
+        public static void UpdatePlayers(List<Player> players)
+        {
+            using (var db = new PlayerContext())
+            {
+                foreach (Player player in players)
+                {
+                    //var query = from p in db.Players
+                    //            where p.PlayerID == player.PlayerID
+                    //            select p;
+
+                    var query = db.Players.SingleOrDefault(p => p.PlayerID == player.PlayerID);
+                    if (query != null)
+                    {
+                        query.Wins = player.Wins;
+                        query.Losses = player.Losses;
+                        db.SaveChanges();
+                    }
+                }
+            }
+        }
+
         public static void RemoveAllPlayers()
         {
             using (var db = new PlayerContext())

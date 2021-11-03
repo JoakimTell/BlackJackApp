@@ -114,6 +114,8 @@ namespace BlackJackApp
                 else
                 {
                     deck.GameIsDone = true;
+                    ListViewHandler();
+                    PlayerContext.UpdatePlayers(players.List);
                     lblMessage.Content = "Round finnished. New game?";
                     btnNextPlayer.Content = "Next Player";
                     btnNextPlayer.IsEnabled = false;

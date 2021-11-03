@@ -27,6 +27,7 @@ namespace BlackJackApp
 
         private void Button_Click(object sender, RoutedEventArgs e)
         {
+            lstViewSearchResults.Items.Clear();
             string searchString = txtSearch.Text;
             PlayerContext context = new PlayerContext();
             List<Player> foundPlayers = PlayerContext.FindPlayer(searchString, context);
