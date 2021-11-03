@@ -42,6 +42,8 @@ namespace BlackJackApp
         public Player(int id, string name, Hand hand)
         {
             PlayerID = id.ToString();
+            ChipTrays = new List<ChipTray>();
+            ChipTrays.Add(new ChipTray());
             //PlayerID = Guid.NewGuid().ToString("N");
             Name = name;
             Hand = hand;

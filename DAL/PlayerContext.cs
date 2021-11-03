@@ -26,18 +26,6 @@ namespace BlackJackApp
             }
         }
 
-        public static void AddNewChipTrays(int nbrOfChipTrays)
-        {
-            using (var db = new PlayerContext())
-            {
-                for (int i = 1; i <= nbrOfChipTrays; i++)
-                {
-                    db.ChipTrays.Add(new ChipTray());
-                    db.SaveChanges();
-                }
-            }
-        }
-
         public static void RemoveAllPlayers()
         {
             using (var db = new PlayerContext())
@@ -81,9 +69,18 @@ namespace BlackJackApp
             }
         }
 
-        public static void AssignChipTraysToPlayers()
+        public static List<Player> FindPlayer(string searchString)
         {
-            //???????????????
+            IEnumerable<Player> searchResultPlayers;
+
+            using (var context = new PlayerContext())
+            {
+                // Query for all players with names containing a search string.
+                searchResultPlayers =   from p in context.Players
+                                        where p.Name.Contains(searchString)
+                                        select p;
+            }
+            return searchResultPlayers.ToList();
         }
     }
 }

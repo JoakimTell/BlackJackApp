@@ -22,5 +22,16 @@ namespace BlackJackApp
             FiveDollarChips = 10;
             TwentyDollarChips = 3;
         }
+
+        public int TotalValue()
+        {
+            int value = 0;
+
+            value += OneDollarChips * 1;
+            value += FiveDollarChips * 5;
+            value += TwentyDollarChips * 20;
+
+            return value;
+        }
     }
 }

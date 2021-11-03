@@ -52,6 +52,7 @@ namespace BlackJackApp
                 {
                     string name = $"Player {i}";
                     Player player = new Player(i, name, new Hand(deck));
+                    
                     players.Add(player);
 
                     Debug.WriteLine("Player '" + name + "' added.");
@@ -61,7 +62,7 @@ namespace BlackJackApp
                 // Add players and chips to database.
                 PlayerContext.RemoveAllPlayers();
                 PlayerContext.AddNewPlayers(nbrOfPlayers, players.List);
-                PlayerContext.AddNewChipTrays(7);
+                //PlayerContext.AddNewChipTrays(7);
                 //PlayerContext.AssignChipTraysToPlayers(); // How?
                 PlayerContext.GetAllPlayers();
                 PlayerContext.GetAllChipTrays();

@@ -412,6 +412,11 @@ namespace BlackJackApp
             btnNewRound.IsEnabled = !playing;
         }
         #endregion
+
+        private void Mnu_Search_Click(object sender, RoutedEventArgs e)
+        {
+            new Search();
+        }
     }
 }
 
