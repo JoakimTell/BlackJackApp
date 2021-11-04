@@ -23,8 +23,6 @@ namespace BlackJackApp
         public bool GameIsDone { get; set; }
         #endregion
 
-
-        // Construct with a list of cards as parameter.
         public Deck(List<Card> cardList)
         {
             randomArranger = new Random();

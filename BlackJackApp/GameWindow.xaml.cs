@@ -24,13 +24,11 @@ namespace BlackJackApp
     public partial class GameWindow : Window
     {
         private Game game;
-
         private Deck deck;
         private ListManager<Player> players;
 
-        private int currentPlayer;
-        private static int dealerPos = 0;
-        private static int maxImageSlots = 8; // canvasDealerCards and canvasPlayerCards are equal.
+        private int maxImageSlotsDealer; 
+        private int maxImageSlotsPlayer;
 
         // Initialized without any game logic. the user has to start a new game.
         public GameWindow()
@@ -40,8 +38,7 @@ namespace BlackJackApp
             btnNewRound.IsEnabled = false;
         }
 
-        #region IN GAME ACTION BUTTONS
-
+        #region BUTTON CLICKS
         private void Hit_Button_Click(object sender, RoutedEventArgs e)
         {
             game.Hit();
@@ -55,53 +52,51 @@ namespace BlackJackApp
         private void Shuffle_Button_Click(object sender, RoutedEventArgs e)
         {
             deck.Shuffle();
-            deck.ToString();
-            // ShuffleCardsEffect();
+            deck.ToString(); // Debug to display shuffle effect.
         }
 
         private void btnNextPlayer_Click(object sender, RoutedEventArgs e)
         {
-            currentPlayer++;
-            game.CurrentPlayerPos++;
-            btnNextPlayer.Content = "Next Player";
-
             game.NextMove();
         }
-        #endregion
-
-        #region OTHER BUTTONS
+       
         private void btnNewRound_Click(object sender, RoutedEventArgs e)
         {
             btnNextPlayer.IsEnabled = true;
-            if (players.Count > 0)
+            if (players.Count > 0 && deck.GameIsDone)
             {
-                if (deck.GameIsDone)
+                game.CurrentPlayerPos = 0;
+                UpdatePlayerListView();
+                ClearGUI();
+                ButtonsIsInPlaymode(false);
+
+                deck.GameIsDone = false;
+                foreach (Player player in players.List)
                 {
-                    currentPlayer = 0;
-                    game.CurrentPlayerPos = 0;
-                    StartNewRound();
+                    player.IsFinnishied = false;
                 }
-                else
-                {
-                    MessageBox.Show("Finnish the started round first.");
-                }
-            }
-            else
-            {
-                MessageBox.Show("Choose number of players in the menu.");
+                game.DealersFirstTwoCards();
             }
         }
 
         private void New_Game_Button_Click(object sender, RoutedEventArgs e)
         {
-            StartUpBusinessLogic();
+            deck = new Deck(new List<Card>());
+            deck.GameIsDone = true;
+            players = new ListManager<Player>();
+            game = new Game(players, deck);
+            
+            maxImageSlotsDealer = canvasDealerCards.Children.Count;
+            maxImageSlotsPlayer = canvasDealerCards.Children.Count;
+
             // Go to Menu frame first.
             Menu menu = new Menu(game, players, deck);
             menu.Show();
+
+            AddEventHandlers();
             // Initialize Game frame.
             ButtonsIsInPlaymode(false);
             btnNextPlayer.IsEnabled = false;
-            AddEventHandlers();
         }
 
         private void mnuXMLSerialize_Click(object sender, RoutedEventArgs e)
@@ -117,108 +112,50 @@ namespace BlackJackApp
         // Subscribe to events from a publisher from the business logic layer.
         private void AddEventHandlers()
         {
-            game.CheckingScorePlayer += OnCheckingScorePlayer;
-            game.CheckingScoreButton += (object sender, bool enabled) => ButtonsIsInPlaymode(enabled);
-            game.CheckingScoreMessage += (object sender, string message) => { lblMessage.Content = message; };
-            game.ImageUpdateSituation += (object sender, UpdateCardsSituationEventArgs e) => RevealCardImage(e.Reveal, e.Dealer, e.CardPos, e.Card);
-            game.UpdateGUISituation += OnUpdateGUISituation;
-            game.MessageUpdateSituation += (object sender, string message) => { lblDealerScoreCalc.Content = message; };
+            game.CheckScore += OnCheckingScorePlayer;
+            game.AfterEachMove += OnUpdateGUISituation;
+            game.UpdateCards += (object sender, UpdateCardsEventArgs e) => RevealCardImage(e.Reveal, e.Dealer, e.CardPos, e.Card);
+            game.AfterDealerMove += (object sender, string score) => { lblDealerScoreCalc.Content = score; };
         }
 
         // To update player info on events in BLL.
-        private void OnCheckingScorePlayer(object sender, UpdatePlayerSituationEventArgs e)
+        private void OnCheckingScorePlayer(object sender, CheckScoreEventArgs e)
         {
-            lblPlayerName.Content = e.PlayerNameMessage;
-            lblPlayerScoreCalc.Content = e.PlayerScoreMessage;
+            lblPlayerName.Content = e.PlayerName;
+            lblPlayerScoreCalc.Content = e.PlayerScore;
         }
 
         // To update GUI info on events in BLL.
-        private void OnUpdateGUISituation(object sender, UpdateGUISituationEventArgs e)
+        private void OnUpdateGUISituation(object sender, EachMoveEventArgs e)
         {
             btnNextPlayer.Content = e.ButtonMessage;
             lblMessage.Content = e.LabelMessage;
             lblPlayerName.Content = e.PlayerNameMessage;
             lblPlayerScoreCalc.Content = e.PlayerScoreMessage;
-
             btnNextPlayer.IsEnabled = e.EnableButtonNextPlayer;
             ButtonsIsInPlaymode(e.EnableButtonsInPlayMode);
         }
         #endregion
 
-        private void AddPlayersToListView()
+        #region UPDATE GUI HELPER METHODS
+        // Reset the table display.
+        private void ClearGUI()
         {
-            if (lstViewPlayerProgress.Items.Count == 0)
-            {
-                foreach (Player player in players.List)
-                {
-                    if (!(player.PlayerID == "DEALER"))
-                    {
-                        var row = new { player.PlayerID, player.Wins, player.Losses };
-                        lstViewPlayerProgress.Items.Add(player);
-                    }
-                }
-            }
-            else
-            {
-                lstViewPlayerProgress.Items.Refresh();
-            }
-        }
-
-        private void StartUpBusinessLogic()
-        {
-            deck = new Deck(new List<Card>());
-            deck.GameIsDone = true;
-            players = new ListManager<Player>();
-            game = new Game(players, deck);
-        }
-
-        private void StartNewRound()
-        {
-            AddPlayersToListView();
             lblPlayerName.Content = "";
             lblPlayerScoreCalc.Content = "";
             lblMessage.Content = "Dealer is dealt first cards. Next player may start to play.";
             // Empty all card image slots.
-            for (int cardPos = 0; cardPos < maxImageSlots; cardPos++)
+            for (int cardPos = 0; cardPos < maxImageSlotsPlayer; cardPos++)
             {
                 RevealCardImage(false, false, cardPos, null);
+            }
+            for (int cardPos = 0; cardPos < maxImageSlotsDealer; cardPos++)
+            {
                 RevealCardImage(false, true, cardPos, null);
             }
-
-            deck.GameIsDone = false;
-            foreach (Player player in players.List)
-            {
-                player.IsFinnishied = false;
-            }
-            DealersFirstTwoCards();
-
-            ButtonsIsInPlaymode(false);
         }
 
-        // Dealer is dealt its first revealed card, and its hidden second card.
-        private void DealersFirstTwoCards()
-        {
-            Player dealer = players.GetAt(dealerPos);
-            Hand hand = dealer.Hand;
-
-            List<Card> twoCards = deck.GetTwoCards();
-            int first = 0;
-            int second = 1;
-
-            // Reaveal first added card.
-            Card card = twoCards[first];
-            hand.AddCard(card);
-            RevealCardImage(true, true, first, card);
-
-            // Hide second added card.
-            card = twoCards[second];
-            hand.LastCard = card; // Store second card in memory to add and reveal later, after players round.
-            RevealCardImage(false, true, second, card);
-
-            lblDealerScoreCalc.Content = hand.Score;
-        }
-
-        #region IMAGE SETTERS
+        // Display a card image, back or front, on the image component, or clear the space.
         private void RevealCardImage(bool reveal, bool dealer, int cardPos, Card card)
         {
             // Which image slot to use.
@@ -252,9 +189,27 @@ namespace BlackJackApp
             }
             nextImage.Source = bitmapImage;
         }
-        #endregion
 
-        #region BUTTON ENABLING
+        // Update the information in the player list.
+        private void UpdatePlayerListView()
+        {
+            if (lstViewPlayerProgress.Items.Count == 0)
+            {
+                foreach (Player player in players.List)
+                {
+                    if (!(player.PlayerID == "DEALER"))
+                    {
+                        lstViewPlayerProgress.Items.Add(player);
+                    }
+                }
+            }
+            else
+            {
+                lstViewPlayerProgress.Items.Refresh();
+            }
+        }
+
+        // Update Buttons in bulk, depending on whether a player is currently in a hand or not.
         private void ButtonsIsInPlaymode(bool playing)
         {
             btnHit.IsEnabled = playing;
@@ -265,4 +220,3 @@ namespace BlackJackApp
         #endregion
     }
 }
-

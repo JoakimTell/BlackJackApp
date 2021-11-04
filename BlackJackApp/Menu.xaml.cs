@@ -22,7 +22,6 @@ namespace BlackJackApp
     public partial class Menu : Window
     {
         Game game;
-
         ListManager<Player> players;
         Deck deck;
 
@@ -52,7 +51,6 @@ namespace BlackJackApp
                 for (int i = 1; i <= nbrOfPlayers; i++)
                 {
                     players.Add(new Player(i.ToString(), $"Player {i}", new Hand(deck),0,0));
-                    
                     Debug.WriteLine("Player number " + i + " added");
                     
                 }

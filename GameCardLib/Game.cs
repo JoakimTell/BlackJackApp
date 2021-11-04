@@ -8,23 +8,40 @@ using UtilitiesLib;
 
 namespace BlackJackApp
 {
-    public delegate void OnScoreCheckPlayerEventHandler(object source, UpdatePlayerSituationEventArgs e);
-    public delegate void OnScoreCheckButtonEventHandler(object source, bool enable);
-    public delegate void OnScoreCheckMessageEventHandler(object source, string message);
-    public delegate void OnNextMoveImageEventHandler(object source, UpdateCardsSituationEventArgs eArgs);
-    public delegate void OnUpdateMessageEventHandler(object source, string message);
-    public delegate void OnUpdateGUIEventHandler(object source, UpdateGUISituationEventArgs e);
+    #region EVENTHANDLING
+    public delegate void OnCheckScoreEventHandler(object source, CheckScoreEventArgs e);
+    public delegate void AfterDealerMoveEventHandler(object source, string score);
+    public delegate void OnUpdateCardsEventHandler(object source, UpdateCardsEventArgs eArgs);
+    public delegate void AfterEachMoveEventHandler(object source, EachMoveEventArgs e);
 
-    public class UpdateCardsSituationEventArgs : EventArgs
+    public class UpdateCardsEventArgs : EventArgs
     {
+        public UpdateCardsEventArgs(bool reveal, bool dealer, int cardPos, Card card)
+        {
+            Reveal = reveal;
+            Dealer = dealer;
+            CardPos = cardPos;
+            Card = card;
+        }
+
         public bool Reveal { get; set; }
         public bool Dealer { get; set; }
         public int CardPos { get; set; }
         public Card Card { get; set; }
     }
 
-    public class UpdateGUISituationEventArgs : EventArgs
+    public class EachMoveEventArgs : EventArgs
     {
+        public EachMoveEventArgs(string buttonMessage, string labelMessage, string playerNameMessage, string playerScoreMessage, bool enableButtonNextPlayer, bool enableButtonsInPlayMode)
+        {
+            ButtonMessage = buttonMessage;
+            LabelMessage = labelMessage;
+            PlayerNameMessage = playerNameMessage;
+            PlayerScoreMessage = playerScoreMessage;
+            EnableButtonNextPlayer = enableButtonNextPlayer;
+            EnableButtonsInPlayMode = enableButtonsInPlayMode;
+        }
+
         public string ButtonMessage { get; set; }
         public string LabelMessage { get; set; }
         public string PlayerNameMessage { get; set; }
@@ -33,11 +50,22 @@ namespace BlackJackApp
         public bool EnableButtonsInPlayMode { get; set; }
     }
 
-    public class UpdatePlayerSituationEventArgs : EventArgs
+    public class CheckScoreEventArgs : EventArgs
     {
-        public string PlayerNameMessage { get; set; }
-        public string PlayerScoreMessage { get; set; }
+        public CheckScoreEventArgs(string playerName, string playerScore, bool handInPlay, string scoreInfo)
+        {
+            PlayerName = playerName;
+            PlayerScore = playerScore;
+            HandInPlay = handInPlay;
+            ScoreInfo = scoreInfo;
+        }
+
+        public string PlayerName { get; set; }
+        public string PlayerScore { get; set; }
+        public bool HandInPlay { get; set; }
+        public string ScoreInfo { get; set; }
     }
+    #endregion
 
     public class Game
     {
@@ -45,15 +73,13 @@ namespace BlackJackApp
         private Deck deck;
 
         public int CurrentPlayerPos { get; set; }
-        private static int DealerPos { get; } = 0;
-        private static int maxImageSlots = 8; // canvasDealerCards and canvasPlayerCards are equal.
+        private int DealerPos { get; } = 0;
+        private readonly int maxImageSlots = 8; 
 
-        public event OnScoreCheckPlayerEventHandler CheckingScorePlayer;
-        public event OnScoreCheckButtonEventHandler CheckingScoreButton;
-        public event OnScoreCheckMessageEventHandler CheckingScoreMessage;
-        public event OnNextMoveImageEventHandler ImageUpdateSituation;
-        public event OnUpdateMessageEventHandler MessageUpdateSituation;
-        public event OnUpdateGUIEventHandler UpdateGUISituation;
+        public event OnCheckScoreEventHandler CheckScore;
+        public event AfterDealerMoveEventHandler AfterDealerMove;
+        public event OnUpdateCardsEventHandler UpdateCards;
+        public event AfterEachMoveEventHandler AfterEachMove;
 
         public Game(ListManager<Player> players, Deck deck)
         {
@@ -63,6 +89,8 @@ namespace BlackJackApp
 
         public void NextMove()
         {
+            CurrentPlayerPos++;
+
             string buttonMessage = "";
             string labelMessage = "";
             string playerNameMessage = "";
@@ -87,12 +115,7 @@ namespace BlackJackApp
                 {
                     for (int cardPos = 0; cardPos < 8; cardPos++) // 8 in GUI is max slots for card images.
                     {
-                        UpdateCardsSituationEventArgs args = new UpdateCardsSituationEventArgs();
-                        args.Reveal = true;
-                        args.Dealer = false;
-                        args.CardPos = cardPos;
-                        args.Card = null;
-                        ImageUpdateSituation?.Invoke(this, args);
+                        UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, false, cardPos, null));
                     }
                     PlayerFirstTwoCards();
                     ScoreCheck();
@@ -121,12 +144,7 @@ namespace BlackJackApp
                     playerScoreMessage = "";
                     for (int cardPos = 0; cardPos < maxImageSlots; cardPos++)
                     {
-                        UpdateCardsSituationEventArgs args = new UpdateCardsSituationEventArgs();
-                        args.Reveal = true;
-                        args.Dealer = false;
-                        args.CardPos = cardPos;
-                        args.Card = null;
-                        ImageUpdateSituation?.Invoke(this, args);
+                        UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, false, cardPos, null));
                     }
                     buttonMessage = "Compare score";
                 }
@@ -137,14 +155,8 @@ namespace BlackJackApp
                 {
                     for (int cardPos = 0; cardPos < player.Hand.Cards.Count; cardPos++)
                     {
-                        Card card = player.Hand.Cards[cardPos];
-                        
-                        UpdateCardsSituationEventArgs args = new UpdateCardsSituationEventArgs();
-                        args.Reveal = true;
-                        args.Dealer = false;
-                        args.CardPos = cardPos;
-                        args.Card = card;
-                        ImageUpdateSituation?.Invoke(this, args);
+                        Card card = player.Hand.Cards[cardPos];                        
+                        UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, false, cardPos, card));
                     }
                     ScoreCheck();
                     enableButtonsInPlayMode = false;
@@ -167,24 +179,37 @@ namespace BlackJackApp
                     }
                     for (int cardPos = 0; cardPos < maxImageSlots; cardPos++) // 8 in GUI is max slots for card images.
                     {
-                        UpdateCardsSituationEventArgs args = new UpdateCardsSituationEventArgs();
-                        args.Reveal = false;
-                        args.Dealer = false;
-                        args.CardPos = cardPos;
-                        args.Card = null;
-                        ImageUpdateSituation?.Invoke(this, args);
+                        UpdateCards?.Invoke(this, new UpdateCardsEventArgs(false, false, cardPos, null));
                     }
                 }
             }
-            UpdateGUISituationEventArgs argsGUI = new UpdateGUISituationEventArgs();
-            argsGUI.ButtonMessage = buttonMessage;
-            argsGUI.LabelMessage = labelMessage;
-            argsGUI.PlayerNameMessage = playerNameMessage;
-            argsGUI.PlayerScoreMessage = playerScoreMessage;
-            argsGUI.EnableButtonNextPlayer = enableButtonNextPlayer;
-            argsGUI.EnableButtonsInPlayMode = enableButtonsInPlayMode;
-            UpdateGUISituation?.Invoke(this, argsGUI);
+            AfterEachMove?.Invoke(this, new EachMoveEventArgs(buttonMessage, labelMessage, playerNameMessage, playerScoreMessage, enableButtonNextPlayer, enableButtonsInPlayMode));
         }
+
+        // Dealer is dealt its first revealed card, and its hidden second card.
+        public void DealersFirstTwoCards()
+        {
+            Player dealer = players.GetAt(DealerPos);
+            Hand hand = dealer.Hand;
+
+            List<Card> twoCards = deck.GetTwoCards();
+            int first = 0;
+            int second = 1;
+
+            // Reaveal first added card.
+            Card card = twoCards[first];
+            hand.AddCard(card);
+            UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, false, first, card));
+
+            // Hide second added card.
+            card = twoCards[second];
+            hand.LastCard = card; // Store second card in memory to add and reveal later, after players round.
+            UpdateCards?.Invoke(this, new UpdateCardsEventArgs(false, true, second, card));
+
+            string score = hand.Score.ToString();
+            AfterDealerMove?.Invoke(this, score);
+        }
+
         // Set up the current player for a hand.
         private void PlayerFirstTwoCards()
         {
@@ -197,12 +222,7 @@ namespace BlackJackApp
             {
                 hand.AddCard(card);
                 int cardPos = twoCards.IndexOf(card);
-                UpdateCardsSituationEventArgs args = new UpdateCardsSituationEventArgs();
-                args.Reveal = true;
-                args.Dealer = false;
-                args.CardPos = cardPos;
-                args.Card = card;
-                ImageUpdateSituation?.Invoke(this, args);
+                UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, false, cardPos, card));
             }
         }
 
@@ -221,12 +241,7 @@ namespace BlackJackApp
 
             hand.AddCard(card);
             int cardPos = second;
-            UpdateCardsSituationEventArgs args = new UpdateCardsSituationEventArgs();
-            args.Reveal = true;
-            args.Dealer = true;
-            args.CardPos = cardPos;
-            args.Card = card;
-            ImageUpdateSituation?.Invoke(this, args);
+            UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, true, cardPos, card));
 
             // Add more cards.
             while (hand.Score < 15)
@@ -235,17 +250,13 @@ namespace BlackJackApp
                 hand.AddCard(card);
                 deck.RemoveCard(first);
                 cardPos = hand.NumberOfCards - 1;
-                args = new UpdateCardsSituationEventArgs();
-                args.Reveal = true;
-                args.Dealer = true;
-                args.CardPos = cardPos;
-                args.Card = card;
-                ImageUpdateSituation?.Invoke(this, args);
+                UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, true, cardPos, card));
             }
             dealerScore = hand.Score;
-            MessageUpdateSituation?.Invoke(this, dealerScore.ToString());
+            AfterDealerMove?.Invoke(this, dealerScore.ToString());
         }
 
+        // Player takes a new card.
         public void Hit()
         {
             Player player = players.GetAt(CurrentPlayerPos);
@@ -260,13 +271,7 @@ namespace BlackJackApp
                 deck.RemoveCard(first);
 
                 int cardPos = hand.NumberOfCards - 1;
-                UpdateCardsSituationEventArgs args = new UpdateCardsSituationEventArgs();
-                args.Reveal = true;
-                args.Dealer = false;
-                args.CardPos = cardPos;
-                args.Card = card;
-                ImageUpdateSituation?.Invoke(this, args);
-
+                UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, false, cardPos, card));
             }
             ScoreCheck();
         }
@@ -274,7 +279,7 @@ namespace BlackJackApp
         // Check player score and give message.
         public void ScoreCheck()
         {
-            string message = "";
+            string scoreInfo = "";
 
             Player dealer = players.GetAt(DealerPos);
             Player player = players.GetAt(CurrentPlayerPos);
@@ -285,7 +290,7 @@ namespace BlackJackApp
             int playerScore = playerHand.Score;
             int dealerScore = dealerHand.Score;
 
-            bool enableButtonsInPlayMode = false;
+            bool handInPlay = false;
 
             if (!dealer.IsFinnishied)
             {
@@ -294,39 +299,39 @@ namespace BlackJackApp
                     player.Winner = true;
                     player.Wins++;
                     player.IsFinnishied = true; // To not draw more cards after dealer.
-                    enableButtonsInPlayMode = false;
-                    message = player.ToString();
+                    handInPlay = false;
+                    scoreInfo = player.ToString();
                 }
                 else if (playerScore > 21)
                 {
                     player.Winner = false;
                     player.Losses++;
                     player.IsFinnishied = true; // To not draw more cards after dealer.
-                    enableButtonsInPlayMode = false;
-                    message = player.ToString();
+                    handInPlay = false;
+                    scoreInfo = player.ToString();
                 }
                 else
                 {
                     if (playerScore < dealerScore)
                     {
-                        message = "You have LESS points than the dealer.";
+                        scoreInfo = "You have LESS points than the dealer.";
                     }
                     else if (playerScore > dealerScore)
                     {
-                        message = "You have More points than the dealer.";
+                        scoreInfo = "You have More points than the dealer.";
                     }
                     else if (playerScore == dealerScore)
                     {
-                        message = "You have THE SAME score as the dealer.";
+                        scoreInfo = "You have THE SAME score as the dealer.";
                     }
-                    enableButtonsInPlayMode = true;
+                    handInPlay = true;
                 }
             }
             else if (dealer.IsFinnishied)
             {
                 if (player.IsFinnishied)
                 {
-                    message = player.ToString();
+                    scoreInfo = player.ToString();
                 }
                 else if (dealerScore > 21)
                 {
@@ -334,7 +339,7 @@ namespace BlackJackApp
                     player.Winner = true;
                     dealer.Losses++;
                     player.Wins++;
-                    message = player.ToString();
+                    scoreInfo = player.ToString();
                 }
                 else if (playerScore < dealerScore)
                 {
@@ -342,7 +347,7 @@ namespace BlackJackApp
                     player.Winner = false;
                     player.Losses++;
                     dealer.Wins++;
-                    message = player.ToString();
+                    scoreInfo = player.ToString();
                 }
                 else if (playerScore >= dealerScore)
                 {
@@ -350,16 +355,13 @@ namespace BlackJackApp
                     player.Winner = true;
                     player.Wins++;
                     dealer.Losses++;
-                    message = player.ToString();
+                    scoreInfo = player.ToString();
                 }
-                enableButtonsInPlayMode = true;
+                handInPlay = true;
             }
-            UpdatePlayerSituationEventArgs argsPlayer = new UpdatePlayerSituationEventArgs();
-            argsPlayer.PlayerNameMessage = player.Name;
-            argsPlayer.PlayerScoreMessage = player.Hand.Score.ToString();
-            CheckingScorePlayer?.Invoke(this, argsPlayer);
-            CheckingScoreButton?.Invoke(this, enableButtonsInPlayMode); // ButtonsIsInPlaymode(false);
-            CheckingScoreMessage?.Invoke(this, message); //lblMessage.Content = message;
+            string name = player.Name;
+            string score = player.Hand.Score.ToString();
+            CheckScore?.Invoke(this, new CheckScoreEventArgs(name, score, handInPlay, scoreInfo));
         }
     }
 }
