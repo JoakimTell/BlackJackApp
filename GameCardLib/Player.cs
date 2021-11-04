@@ -39,7 +39,7 @@ namespace BlackJackApp
         }
 
         #region Constructors
-        public Player(string name, Hand hand)
+        public Player(int id, string name, Hand hand)
         {
             PlayerID = id.ToString();
             ChipTrays = new List<ChipTray>();
@@ -49,8 +49,6 @@ namespace BlackJackApp
             Hand = hand;
             Wins = 0;
             Losses = 0;
-            ChipTrays = new List<ChipTray>();
-            ChipTrays.Add(new ChipTray());
         }
 
         public Player()
