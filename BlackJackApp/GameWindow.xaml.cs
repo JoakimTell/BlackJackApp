@@ -52,7 +52,7 @@ namespace BlackJackApp
         private void Shuffle_Button_Click(object sender, RoutedEventArgs e)
         {
             deck.Shuffle();
-            //deck.ToString(); // Debug to display shuffle effect.
+            Debug.WriteLine(deck.ToString()); // Debug to display shuffle effect.
         }
 
         private void btnNextPlayer_Click(object sender, RoutedEventArgs e)
@@ -63,7 +63,7 @@ namespace BlackJackApp
         private void btnNewRound_Click(object sender, RoutedEventArgs e)
         {
             btnNextPlayer.IsEnabled = true;
-            if (players.Count > 0 && deck.GameIsDone)
+            if (players.Count > 0)
             {
                 game.CurrentPlayerPos = 0;
                 UpdatePlayerListView();

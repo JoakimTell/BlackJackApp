@@ -101,18 +101,18 @@ namespace BlackJackApp
 
             Player dealer = players.GetAt(DealerPos);
             Player player = players.GetAt(CurrentPlayerPos);
-            //Debug.WriteLine("Game.NextMove() - Current Player Position: " + CurrentPlayerPos);
 
             Hand dealerHand = dealer.Hand;
 
             int dealerScore = dealerHand.Score;
-
+            for (int cardPos = 0; cardPos < maxImageSlots; cardPos++)
+            {
+                UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, false, cardPos, null));
+            }
             if (!dealer.IsFinnishied) // Before dealers second turn, compare against dealers first card.
             {
-                //Debug.WriteLine("if (!dealer.IsFinnishied): " + CurrentPlayerPos);
                 if (CurrentPlayerPos < players.Count)
                 {
-                    //Debug.WriteLine("if (CurrentPlayerPos < players.Count): " + CurrentPlayerPos);
                     for (int cardPos = 0; cardPos < 8; cardPos++) // 8 in GUI is max slots for card images.
                     {
                         UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, false, cardPos, null));
@@ -120,9 +120,6 @@ namespace BlackJackApp
                     PlayerFirstTwoCards();
                     playerNameMessage = player.Name;
                     playerScoreMessage = player.Hand.Score.ToString();
-                    //Debug.WriteLine("");
-                    //Debug.WriteLine("Game.NextMove() - Player: " + player.Name + ", Score: " + playerScoreMessage);
-                    //Debug.WriteLine("");
                     enableButtonsInPlayMode = true;
                     buttonMessage = "Next Player";
                     if (CurrentPlayerPos == players.Count - 1)
@@ -134,7 +131,6 @@ namespace BlackJackApp
                 }
                 else
                 {
-                    //Debug.WriteLine("1 else: " + CurrentPlayerPos);
                     DealersSecondRound();
                     dealer.IsFinnishied = true;
                     CurrentPlayerPos = 0; // Reset position after every player is done.
@@ -159,10 +155,6 @@ namespace BlackJackApp
                 if (CurrentPlayerPos < players.Count)
                 {
                     //Debug.WriteLine("if (CurrentPlayerPos < players.Count): " + CurrentPlayerPos);
-                    buttonMessage = "Next Player";
-                    labelMessage = player.ToString();
-                    playerNameMessage = player.Name;
-                    playerScoreMessage = player.Hand.Score.ToString();
                     for (int cardPos = 0; cardPos < player.Hand.Cards.Count; cardPos++)
                     {
                         Card card = player.Hand.Cards[cardPos];                        
@@ -172,17 +164,19 @@ namespace BlackJackApp
                     {
                         buttonMessage = "End Round";
                     }
-                    //ScoreCheck();
+                    ScoreCheck();
+                    buttonMessage = "Next Player";
+                    labelMessage = player.ToString();
+                    playerNameMessage = player.Name;
+                    playerScoreMessage = player.Hand.Score.ToString();
                     AfterEachMove?.Invoke(this, new EachMoveEventArgs(buttonMessage, labelMessage, playerNameMessage, playerScoreMessage, true, false));
                 }
                 else
                 {
-                    //Debug.WriteLine("2 else: " + CurrentPlayerPos);
                     if (CurrentPlayerPos < players.Count)
                     deck.GameIsDone = true;
                     labelMessage = "Round finnished. New game?";
                     buttonMessage = "Next Player";
-                    enableButtonNextPlayer = false;
                     CurrentPlayerPos = 0; // Reset position after every player is done.
                     foreach (Player p in players.List)
                     {
@@ -193,7 +187,7 @@ namespace BlackJackApp
                     {
                         UpdateCards?.Invoke(this, new UpdateCardsEventArgs(false, false, cardPos, null));
                     }
-                    AfterEachMove?.Invoke(this, new EachMoveEventArgs(buttonMessage, labelMessage, playerNameMessage, playerScoreMessage, enableButtonNextPlayer, enableButtonsInPlayMode));
+                    AfterEachMove?.Invoke(this, new EachMoveEventArgs(buttonMessage, labelMessage, playerNameMessage, playerScoreMessage, false, false));
                 }
             }
         }
