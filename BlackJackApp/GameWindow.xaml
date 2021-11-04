@@ -55,6 +55,7 @@
             <Menu DockPanel.Dock="Top" Height="34">
                 <MenuItem Header="_File">
                     <MenuItem x:Name="Mnu_NewGame" Header="_New Game" Click="New_Game_Button_Click" />
+                    <MenuItem x:Name="Mnu_Search" Header="_Search" Click="Mnu_Search_Click" />
                     <MenuItem x:Name="Mnu_XML" Header="XML">
                         <MenuItem x:Name="mnuXMLSerialize" Header="Serialize" Click="mnuXMLSerialize_Click"/>
                         <MenuItem x:Name="mnuXMLDeSerialize" Header="DeSerialize"/>

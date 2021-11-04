@@ -26,14 +26,23 @@ namespace BlackJackApp
             }
         }
 
-        public static void AddNewChipTrays(int nbrOfChipTrays)
+        public static void UpdatePlayers(List<Player> players)
         {
             using (var db = new PlayerContext())
             {
-                for (int i = 1; i <= nbrOfChipTrays; i++)
+                foreach (Player player in players)
                 {
-                    db.ChipTrays.Add(new ChipTray());
-                    db.SaveChanges();
+                    //var query = from p in db.Players
+                    //            where p.PlayerID == player.PlayerID
+                    //            select p;
+
+                    var query = db.Players.SingleOrDefault(p => p.PlayerID == player.PlayerID);
+                    if (query != null)
+                    {
+                        query.Wins = player.Wins;
+                        query.Losses = player.Losses;
+                        db.SaveChanges();
+                    }
                 }
             }
         }
@@ -54,8 +63,8 @@ namespace BlackJackApp
             {
                 // Display all Players from the database
                 var query = from p in db.Players
-                             orderby p.Name
-                             select p;
+                            orderby p.Name
+                            select p;
 
                 Debug.WriteLine("All players in the database:");
                 foreach (var item in query)
@@ -70,8 +79,8 @@ namespace BlackJackApp
             using (var db = new PlayerContext())
             {
                 // Display all Chip Trays from the database
-                var query =     from c in db.ChipTrays
-                                select c;
+                var query = from c in db.ChipTrays
+                            select c;
 
                 Debug.WriteLine("All Chip Trays in the database:");
                 foreach (var item in query)
@@ -81,9 +90,17 @@ namespace BlackJackApp
             }
         }
 
-        public static void AssignChipTraysToPlayers()
+        public static List<Player> FindPlayer(string searchString, PlayerContext context)
         {
-            //???????????????
+            List<Player> searchResultPlayers;
+
+            // Query for all players with names containing a search string.
+            var query = from p in context.Players
+                        where p.Name.Contains(searchString)
+                        select p;
+
+            searchResultPlayers = query.ToList();
+            return searchResultPlayers;
         }
     }
 }

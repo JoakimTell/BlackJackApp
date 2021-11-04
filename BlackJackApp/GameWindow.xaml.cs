@@ -28,7 +28,6 @@ namespace BlackJackApp
 
         private int currentPlayer;
         private static int dealer;
-        private int bettedChips;
 
         public GameWindow()
         {
@@ -117,6 +116,8 @@ namespace BlackJackApp
                 else
                 {
                     deck.GameIsDone = true;
+                    ListViewHandler();
+                    PlayerContext.UpdatePlayers(players.List);
                     lblMessage.Content = "Round finnished. New game?";
                     btnNextPlayer.Content = "Next Player";
                     btnNextPlayer.IsEnabled = false;
@@ -201,7 +202,7 @@ namespace BlackJackApp
                 {
                     if (!(player.Name == "Dealer"))
                     {
-                        var row = new { player.Name, player.ChipTrays[0].OneDollarChips, player.ChipTrays[0].FiveDollarChips, player.ChipTrays[0].TwentyDollarChips };
+                        var row = new { player.Name, player.Wins, player.Losses };
                         lstViewPlayerProgress.Items.Add(player);
                     }
                 }
@@ -215,7 +216,6 @@ namespace BlackJackApp
         private void StartNewRound()
         {
             ListViewHandler();
-
             lblPlayerName.Content = "";
             lblPlayerScoreCalc.Content = "";
             lblMessage.Content = "Dealer is dealt first cards. Next player may start to play.";
@@ -487,6 +487,12 @@ namespace BlackJackApp
 
             ListViewHandler();
             Debug.WriteLine("twenties: " + twenties + ". fives: " + fives + ". ones: " + ones);
+        }
+
+        private void Mnu_Search_Click(object sender, RoutedEventArgs e)
+        {
+            Search search = new Search();
+            search.Show();
         }
     }
 }
