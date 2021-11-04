@@ -215,7 +215,7 @@ namespace BlackJackApp
         private void StartNewRound()
         {
             ListViewHandler();
-            
+
             lblPlayerName.Content = "";
             lblPlayerScoreCalc.Content = "";
             lblMessage.Content = "Dealer is dealt first cards. Next player may start to play.";
@@ -427,7 +427,7 @@ namespace BlackJackApp
 
         private void OneDollarChips_Click(object sender, RoutedEventArgs e)
         {
-            if(players.GetAt(currentPlayer).ChipTrays[0].OneDollarChips > 0)
+            if (players.GetAt(currentPlayer).ChipTrays[0].OneDollarChips > 0)
             {
                 players.GetAt(currentPlayer).ChipTrays[0].OneDollarChips -= 1;
                 lblBet.Content = players.GetAt(currentPlayer).ChipTrays[0].PlayerBetScore += 1;
@@ -452,8 +452,6 @@ namespace BlackJackApp
             {
                 MessageBox.Show("You dont have enough Five Dollar Chips to bet");
             }
-
-
         }
 
         private void TwentyDollarChips_Click(object sender, RoutedEventArgs e)
@@ -463,16 +461,11 @@ namespace BlackJackApp
                 players.GetAt(currentPlayer).ChipTrays[0].TwentyDollarChips -= 1;
                 lblBet.Content = players.GetAt(currentPlayer).ChipTrays[0].PlayerBetScore += 20;
                 ListViewHandler();
-            } 
+            }
             else
             {
                 MessageBox.Show("You dont have enough Twenty Dollar Chips to bet");
             }
-
-
-
-                
-
         }
 
         private void Chaching()
@@ -481,16 +474,16 @@ namespace BlackJackApp
 
             int twenties = num / 20;
             int remainder20 = num % 20;
-            players.GetAt(currentPlayer).ChipTrays[0].TwentyDollarChips += (twenties*2);
+            players.GetAt(currentPlayer).ChipTrays[0].TwentyDollarChips += (twenties * 2);
 
             int fives = remainder20 / 5;
             int remainder5 = remainder20 % 5;
-            players.GetAt(currentPlayer).ChipTrays[0].FiveDollarChips += (fives*2);
+            players.GetAt(currentPlayer).ChipTrays[0].FiveDollarChips += (fives * 2);
 
 
             int ones = remainder5 / 1;
             int remainder1 = remainder5 % 1;
-            players.GetAt(currentPlayer).ChipTrays[0].OneDollarChips += (ones*2);
+            players.GetAt(currentPlayer).ChipTrays[0].OneDollarChips += (ones * 2);
 
             ListViewHandler();
             Debug.WriteLine("twenties: " + twenties + ". fives: " + fives + ". ones: " + ones);
