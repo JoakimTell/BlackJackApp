@@ -45,16 +45,13 @@ namespace BlackJackApp
                 deck.InitializeNewDeck(nbrOfDecks);
                 deck.Shuffle();
 
-                Debug.WriteLine("");
-                Debug.WriteLine("");
                 // Add a list of players from index 1.
                 for (int i = 1; i <= nbrOfPlayers; i++)
                 {
                     players.Add(new Player(i.ToString(), $"Player {i}", new Hand(deck),0,0));
-                    Debug.WriteLine("Player number " + i + " added");
+                    //Debug.WriteLine("Player number " + i + " added");
                     
                 }
-                Debug.WriteLine("");
                 foreach (Player player in players.List)
                 {
                     deck.DeckIsRunningOut += player.On_Deck_LowOnCards_Player;

@@ -52,7 +52,7 @@ namespace BlackJackApp
         private void Shuffle_Button_Click(object sender, RoutedEventArgs e)
         {
             deck.Shuffle();
-            deck.ToString(); // Debug to display shuffle effect.
+            //deck.ToString(); // Debug to display shuffle effect.
         }
 
         private void btnNextPlayer_Click(object sender, RoutedEventArgs e)
@@ -123,6 +123,8 @@ namespace BlackJackApp
         {
             lblPlayerName.Content = e.PlayerName;
             lblPlayerScoreCalc.Content = e.PlayerScore;
+            ButtonsIsInPlaymode(e.HandInPlay);
+            lblMessage.Content = e.ScoreInfo;
         }
 
         // To update GUI info on events in BLL.
@@ -132,8 +134,8 @@ namespace BlackJackApp
             lblMessage.Content = e.LabelMessage;
             lblPlayerName.Content = e.PlayerNameMessage;
             lblPlayerScoreCalc.Content = e.PlayerScoreMessage;
-            btnNextPlayer.IsEnabled = e.EnableButtonNextPlayer;
             ButtonsIsInPlaymode(e.EnableButtonsInPlayMode);
+            btnNextPlayer.IsEnabled = e.EnableButtonNextPlayer;
         }
         #endregion
 

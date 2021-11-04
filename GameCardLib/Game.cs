@@ -101,9 +101,7 @@ namespace BlackJackApp
 
             Player dealer = players.GetAt(DealerPos);
             Player player = players.GetAt(CurrentPlayerPos);
-            Debug.WriteLine("");
-            Debug.WriteLine("Game.NextMove() - Current Player Position: " + CurrentPlayerPos);
-            Debug.WriteLine("");
+            //Debug.WriteLine("Game.NextMove() - Current Player Position: " + CurrentPlayerPos);
 
             Hand dealerHand = dealer.Hand;
 
@@ -111,28 +109,32 @@ namespace BlackJackApp
 
             if (!dealer.IsFinnishied) // Before dealers second turn, compare against dealers first card.
             {
+                //Debug.WriteLine("if (!dealer.IsFinnishied): " + CurrentPlayerPos);
                 if (CurrentPlayerPos < players.Count)
                 {
+                    //Debug.WriteLine("if (CurrentPlayerPos < players.Count): " + CurrentPlayerPos);
                     for (int cardPos = 0; cardPos < 8; cardPos++) // 8 in GUI is max slots for card images.
                     {
                         UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, false, cardPos, null));
                     }
                     PlayerFirstTwoCards();
-                    ScoreCheck();
                     playerNameMessage = player.Name;
                     playerScoreMessage = player.Hand.Score.ToString();
-                    Debug.WriteLine("");
-                    Debug.WriteLine("Game.NextMove() - Player: " + player.Name + ", Score: " + playerScoreMessage);
-                    Debug.WriteLine("");
+                    //Debug.WriteLine("");
+                    //Debug.WriteLine("Game.NextMove() - Player: " + player.Name + ", Score: " + playerScoreMessage);
+                    //Debug.WriteLine("");
                     enableButtonsInPlayMode = true;
                     buttonMessage = "Next Player";
                     if (CurrentPlayerPos == players.Count - 1)
                     {
                         buttonMessage = "Dealers round";
                     }
+                    AfterEachMove?.Invoke(this, new EachMoveEventArgs(buttonMessage, labelMessage, playerNameMessage, playerScoreMessage, enableButtonNextPlayer, enableButtonsInPlayMode));
+                    ScoreCheck();
                 }
                 else
                 {
+                    //Debug.WriteLine("1 else: " + CurrentPlayerPos);
                     DealersSecondRound();
                     dealer.IsFinnishied = true;
                     CurrentPlayerPos = 0; // Reset position after every player is done.
@@ -142,31 +144,41 @@ namespace BlackJackApp
                         : "Dealer stays. Compare scores.";
                     playerNameMessage = "";
                     playerScoreMessage = "";
+                    enableButtonNextPlayer = true;
                     for (int cardPos = 0; cardPos < maxImageSlots; cardPos++)
                     {
                         UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, false, cardPos, null));
                     }
                     buttonMessage = "Compare score";
+                    AfterEachMove?.Invoke(this, new EachMoveEventArgs(buttonMessage, labelMessage, playerNameMessage, playerScoreMessage, true, false));
                 }
             }
             else if (dealer.IsFinnishied) // Now compare players score to dealers final score.
             {
+                //Debug.WriteLine("else if (dealer.IsFinnishied): " + CurrentPlayerPos);
                 if (CurrentPlayerPos < players.Count)
                 {
+                    //Debug.WriteLine("if (CurrentPlayerPos < players.Count): " + CurrentPlayerPos);
+                    buttonMessage = "Next Player";
+                    labelMessage = player.ToString();
+                    playerNameMessage = player.Name;
+                    playerScoreMessage = player.Hand.Score.ToString();
                     for (int cardPos = 0; cardPos < player.Hand.Cards.Count; cardPos++)
                     {
                         Card card = player.Hand.Cards[cardPos];                        
                         UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, false, cardPos, card));
                     }
-                    ScoreCheck();
-                    enableButtonsInPlayMode = false;
                     if (CurrentPlayerPos == players.Count - 1)
                     {
                         buttonMessage = "End Round";
                     }
+                    //ScoreCheck();
+                    AfterEachMove?.Invoke(this, new EachMoveEventArgs(buttonMessage, labelMessage, playerNameMessage, playerScoreMessage, true, false));
                 }
                 else
                 {
+                    //Debug.WriteLine("2 else: " + CurrentPlayerPos);
+                    if (CurrentPlayerPos < players.Count)
                     deck.GameIsDone = true;
                     labelMessage = "Round finnished. New game?";
                     buttonMessage = "Next Player";
@@ -181,9 +193,9 @@ namespace BlackJackApp
                     {
                         UpdateCards?.Invoke(this, new UpdateCardsEventArgs(false, false, cardPos, null));
                     }
+                    AfterEachMove?.Invoke(this, new EachMoveEventArgs(buttonMessage, labelMessage, playerNameMessage, playerScoreMessage, enableButtonNextPlayer, enableButtonsInPlayMode));
                 }
             }
-            AfterEachMove?.Invoke(this, new EachMoveEventArgs(buttonMessage, labelMessage, playerNameMessage, playerScoreMessage, enableButtonNextPlayer, enableButtonsInPlayMode));
         }
 
         // Dealer is dealt its first revealed card, and its hidden second card.
@@ -199,7 +211,7 @@ namespace BlackJackApp
             // Reaveal first added card.
             Card card = twoCards[first];
             hand.AddCard(card);
-            UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, false, first, card));
+            UpdateCards?.Invoke(this, new UpdateCardsEventArgs(true, true, first, card));
 
             // Hide second added card.
             card = twoCards[second];

@@ -44,7 +44,7 @@ namespace BlackJackApp
                     }
                 }
             }
-            ToString();
+            //ToString();
         }
 
         // Remove all cards from the deck.
@@ -110,10 +110,10 @@ namespace BlackJackApp
             if (cards.Count == 46) // typ 25% kvar senare...
             {
                 DeckIsRunningOut?.Invoke(this, EventArgs.Empty);
-                Debug.WriteLine("From Deck: Only " + cards.Count + " cards left in the deck!");
-                ToString();
-                Debug.WriteLine("");
-                Debug.WriteLine("New deck: ");
+                //Debug.WriteLine("From Deck: Only " + cards.Count + " cards left in the deck!");
+                //ToString();
+                //Debug.WriteLine("");
+                //Debug.WriteLine("New deck: ");
                 InitializeNewDeck(nbrOfDecks);
                 Shuffle();
             }
@@ -134,26 +134,10 @@ namespace BlackJackApp
         public override string ToString()
         {
             StringBuilder cardsInDeck = new();
-            int columns = 5;// Debugging.
             foreach (Card card in cards.List)
             {
                 cardsInDeck.AppendLine(card.ToString());
-
-                // Start Debugging.
-                if (columns == 0)
-                {
-                    Debug.Write($"{card,20}\n");
-                    columns = 5;
-                }
-                else
-                {
-                    Debug.Write($"{card,20}");
-                    columns--;
-                }
-                // End Debugging.
             }
-            Debug.WriteLine("");
-            Debug.WriteLine("");
             return cardsInDeck.ToString();
         }
     }
