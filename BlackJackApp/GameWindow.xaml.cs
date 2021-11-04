@@ -215,6 +215,7 @@ namespace BlackJackApp
         private void StartNewRound()
         {
             ListViewHandler();
+            
             lblPlayerName.Content = "";
             lblPlayerScoreCalc.Content = "";
             lblMessage.Content = "Dealer is dealt first cards. Next player may start to play.";
@@ -230,6 +231,7 @@ namespace BlackJackApp
             foreach (Player player in players.List)
             {
                 player.IsFinnishied = false;
+                player.ChipTrays[0].PlayerBetScore = 0;
             }
             DealersFirstTwoCards();
 
