@@ -30,7 +30,7 @@ namespace BlackJackApp
         private int maxImageSlotsDealer; 
         private int maxImageSlotsPlayer;
 
-        // Initialized without any game logic. the user has to start a new game.
+        // Constructor. Initialized without any game logic. the user has to start a new game.
         public GameWindow()
         {
             InitializeComponent();

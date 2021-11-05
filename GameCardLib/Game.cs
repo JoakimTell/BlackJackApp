@@ -8,7 +8,7 @@ using UtilitiesLib;
 
 namespace BlackJackApp
 {
-    #region EVENTHANDLING
+    #region DELEGATES AND EVENTARG CLASSES
     public delegate void OnCheckScoreEventHandler(object source, CheckScoreEventArgs e);
     public delegate void AfterDealerMoveEventHandler(object source, string score);
     public delegate void OnUpdateCardsEventHandler(object source, UpdateCardsEventArgs eArgs);
@@ -67,26 +67,31 @@ namespace BlackJackApp
     }
     #endregion
 
+    // The game class handles the game logic
+    // and publishes events to the UI.
     public class Game
     {
-        private ListManager<Player> players;
-        private Deck deck;
-
-        public int CurrentPlayerPos { get; set; }
+        // References and properties
+        private ListManager<Player> players; // The player manager.
+        private Deck deck; // The card manager.
+        public int CurrentPlayerPos { get; set; } // TODO: Property in player
         private int DealerPos { get; } = 0;
-        private readonly int maxImageSlots = 8; 
+        private readonly int maxImageSlots = 8; // TODO: Fetch from UI
 
+        // Events
         public event OnCheckScoreEventHandler CheckScore;
         public event AfterDealerMoveEventHandler AfterDealerMove;
         public event OnUpdateCardsEventHandler UpdateCards;
         public event AfterEachMoveEventHandler AfterEachMove;
 
+        // Constructor
         public Game(ListManager<Player> players, Deck deck)
         {
             this.players = players;
             this.deck = deck;
         }
 
+        // When next player is to take action.
         public void NextMove()
         {
             CurrentPlayerPos++;

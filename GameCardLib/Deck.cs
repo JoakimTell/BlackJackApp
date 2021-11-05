@@ -23,6 +23,7 @@ namespace BlackJackApp
         public bool GameIsDone { get; set; }
         #endregion
 
+        // Constructor
         public Deck(List<Card> cardList)
         {
             randomArranger = new Random();
@@ -110,10 +111,6 @@ namespace BlackJackApp
             if (cards.Count == 46) // typ 25% kvar senare...
             {
                 DeckIsRunningOut?.Invoke(this, EventArgs.Empty);
-                //Debug.WriteLine("From Deck: Only " + cards.Count + " cards left in the deck!");
-                //ToString();
-                //Debug.WriteLine("");
-                //Debug.WriteLine("New deck: ");
                 InitializeNewDeck(nbrOfDecks);
                 Shuffle();
             }
